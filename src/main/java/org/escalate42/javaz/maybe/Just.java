@@ -37,11 +37,6 @@ public final class Just<T> extends Maybe<T> {
     }
 
     @Override
-    public <U> Maybe<U> mmap(F<T, Maybe<U>> function) {
-        return function.apply(this.value);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

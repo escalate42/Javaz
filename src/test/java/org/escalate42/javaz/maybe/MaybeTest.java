@@ -18,6 +18,13 @@ public class MaybeTest {
     }
 
     @Test
+    public void maybeOrTest() {
+        final Maybe<String> first = none();
+        final Maybe<String> second = maybe("second");
+        assertEquals("second", first.or(second).orElse("third"));
+    }
+
+    @Test
     public void maybeFMapTest() {
         final F<String, String> f = new F<String, String>() {
             @Override
@@ -28,25 +35,6 @@ public class MaybeTest {
         assertEquals(just("onetwo"), maybe("one").fmap(f));
         //noinspection AssertEqualsBetweenInconvertibleTypes
         assertEquals(none(), maybe((String) null).fmap(f));
-    }
-
-    @Test
-    public void maybeMMapTest() {
-        final F<String, Maybe<String>> f = new F<String, Maybe<String>>() {
-            @Override
-            public Maybe<String> apply(final String s) {
-                return just(s + "two");
-            }
-        };
-        assertEquals(just("onetwo"), maybe("one").mmap(f));
-        assertEquals(none(), maybe(null));
-    }
-
-    @Test
-    public void maybeOrTest() {
-        final Maybe<String> first = none();
-        final Maybe<String> second = maybe("second");
-        assertEquals("second", first.or(second).orElse("third"));
     }
 
     @Test
@@ -62,6 +50,18 @@ public class MaybeTest {
     }
 
     @Test
+    public void maybeMMapTest() {
+        final F<String, Maybe<String>> f = new F<String, Maybe<String>>() {
+            @Override
+            public Maybe<String> apply(final String s) {
+                return just(s + "two");
+            }
+        };
+        assertEquals(just("onetwo"), maybe("one").mmap(f));
+        assertEquals(none(), maybe(null));
+    }
+
+    @Test
     public void maybeOpsTest() {
         final MaybeOps id = MaybeOps.id;
         final F<String, String> f = new F<String, String>() {
@@ -70,8 +70,15 @@ public class MaybeTest {
                 return s + "two";
             }
         };
+        final F<String, Maybe<String>> fm = new F<String, Maybe<String>>() {
+            @Override
+            public Maybe<String> apply(final String s) {
+                return just(s + "two");
+            }
+        };
         final Maybe<F<String, String>> appF = id.pure(f);
         assertEquals(just("onetwo"), id.fmap(maybe("one"), f));
         assertEquals(just("onetwo"), id.amap(maybe("one"), appF));
+        assertEquals(just("onetwo"), id.mmap(maybe("one"), fm));
     }
 }

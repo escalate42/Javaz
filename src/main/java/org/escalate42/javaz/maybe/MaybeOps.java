@@ -5,12 +5,14 @@ import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.applicative.ApplicativeOps;
 import org.escalate42.javaz.common.functor.Functor;
 import org.escalate42.javaz.common.functor.FunctorOps;
+import org.escalate42.javaz.common.monad.Monad;
+import org.escalate42.javaz.common.monad.MonadOps;
 
 /**
  * Created by vdubs
  * on 8/21/14.
  */
-public class MaybeOps implements FunctorOps<Maybe<?>>, ApplicativeOps<Maybe<?>> {
+public class MaybeOps implements FunctorOps<Maybe<?>>, ApplicativeOps<Maybe<?>>, MonadOps<Maybe<?>> {
 
     private MaybeOps() {}
 
@@ -33,5 +35,12 @@ public class MaybeOps implements FunctorOps<Maybe<?>>, ApplicativeOps<Maybe<?>> 
         //noinspection unchecked
         final Maybe<T> maybe = (Maybe<T>) functor;
         return maybe.fmap(function);
+    }
+
+    @Override
+    public <T, U, MM extends Monad<U, Maybe<?>>> Maybe<U> mmap(Maybe<?> monad, F<T, MM> function) {
+        //noinspection unchecked
+        final Maybe<T> maybe = (Maybe<T>) monad;
+        return maybe.mmap(function);
     }
 }

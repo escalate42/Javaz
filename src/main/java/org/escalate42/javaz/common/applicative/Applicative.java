@@ -10,4 +10,5 @@ import org.escalate42.javaz.common.functor.Functor;
 public interface Applicative<T, M extends Applicative<?, M>> extends Functor<T, M> {
     public <U> M pure(U value);
     public <U, MM extends Applicative<F<T, U>, M>> M amap(MM applicativeFunction);
+    // TODO: implement (*>) and (<*)
 }
