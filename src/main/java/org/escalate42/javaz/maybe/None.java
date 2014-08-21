@@ -1,6 +1,6 @@
 package org.escalate42.javaz.maybe;
 
-import org.escalate42.javaz.F;
+import org.escalate42.javaz.common.F;
 
 /**
  * Created by vdubs
@@ -21,10 +21,10 @@ public final class None<T> extends Maybe<T> {
     public T orNull() { return null; }
 
     @Override
-    public T orElse(final T elseValue) { return elseValue; }
+    public T orElse(T elseValue) { return elseValue; }
 
     @Override
-    public Maybe<T> or(final Maybe<T> elseValue) { return elseValue; }
+    public Maybe<T> or(Maybe<T> elseValue) { return elseValue; }
 
     @Override
     public <U> Maybe<U> fmap(F<T, U> function) { return none(); }
@@ -33,7 +33,7 @@ public final class None<T> extends Maybe<T> {
     public <U> Maybe<U> mmap(F<T, Maybe<U>> function) { return none(); }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         return !(o == null || getClass() != o.getClass());
     }
 }

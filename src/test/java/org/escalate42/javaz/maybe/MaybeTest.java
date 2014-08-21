@@ -1,6 +1,6 @@
 package org.escalate42.javaz.maybe;
 
-import org.escalate42.javaz.F;
+import org.escalate42.javaz.common.F;
 import org.junit.Test;
 import static org.escalate42.javaz.maybe.Maybe.*;
 import static org.junit.Assert.*;
@@ -47,5 +47,31 @@ public class MaybeTest {
         final Maybe<String> first = none();
         final Maybe<String> second = maybe("second");
         assertEquals("second", first.or(second).orElse("third"));
+    }
+
+    @Test
+    public void maybeAMapTest() {
+        final F<String, String> f = new F<String, String>() {
+            @Override
+            public String apply(final String s) {
+                return s + "two";
+            }
+        };
+        final Maybe<F<String, String>> appF = MaybeOps.id.pure(f);
+        assertEquals(just("onetwo"), maybe("one").amap(appF));
+    }
+
+    @Test
+    public void maybeOpsTest() {
+        final MaybeOps id = MaybeOps.id;
+        final F<String, String> f = new F<String, String>() {
+            @Override
+            public String apply(final String s) {
+                return s + "two";
+            }
+        };
+        final Maybe<F<String, String>> appF = id.pure(f);
+        assertEquals(just("onetwo"), id.fmap(maybe("one"), f));
+        assertEquals(just("onetwo"), id.amap(maybe("one"), appF));
     }
 }

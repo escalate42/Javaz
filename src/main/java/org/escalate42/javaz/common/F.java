@@ -1,4 +1,4 @@
-package org.escalate42.javaz;
+package org.escalate42.javaz.common;
 
 /**
  * Created by vdubs
