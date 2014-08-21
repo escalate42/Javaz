@@ -22,6 +22,8 @@ public class Right<L, R> extends Either<L, R> {
         return right(function.apply(this.rightValue));
     }
 
+    public <U> Either<U, R> fmapLeft(F<L, U> function) { return right(this.rightValue); }
+
     public R right() { return this.rightValue; }
 
     public L left() { throw new IllegalAccessError(); }

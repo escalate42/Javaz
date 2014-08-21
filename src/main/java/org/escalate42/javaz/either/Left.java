@@ -15,7 +15,9 @@ public class Left<L, R> extends Either<L, R> {
     public static <L, R> Left<L, R> left(L value) { return new Left<L, R>(value); }
 
     @Override
-    public <U> Either<L, U> fmap(F<R, U> function) { throw new IllegalAccessError(); }
+    public <U> Either<L, U> fmap(F<R, U> function) { return left(this.leftValue); }
+
+    public <U> Either<U, R> fmapLeft(F<L, U> function) { return left(function.apply(this.leftValue)); }
 
     public R right() { throw new IllegalAccessError(); }
 

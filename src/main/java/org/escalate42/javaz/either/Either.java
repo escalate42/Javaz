@@ -18,7 +18,7 @@ public abstract class Either<L, R> implements Serializable, Monad<R, Either<?, ?
     public static <L, R> Either<L, R> right(R rightValue) { return Right.right(rightValue); }
 
     @Override
-    public abstract  <U> Either<L, U> fmap(F<R, U> function);
+    public abstract <U> Either<L, U> fmap(F<R, U> function);
 
     @Override
     public <U> Either<L, U> pure(U value) { return right(value); }
@@ -35,6 +35,20 @@ public abstract class Either<L, R> implements Serializable, Monad<R, Either<?, ?
         return (Either<L, U>)(applicativeFunction.fmap(new F<F<R, U>, Either<L, U>>() {
             @Override  public Either<L, U> apply(F<R, U> ruf) { return fmap(ruf); }
         }).right());
+    }
+
+    public abstract <U> Either<U, R> fmapLeft(F<L, U> function);
+
+    public <U> Either<U, R> mmapLeft(F<L, Either<U, R>> function) {
+        //noinspection unchecked
+        return fmapLeft(function).left();
+    }
+
+    public <U> Either<U, R> amapLeft(Either<?, F<L, U>> applicativeFunction) {
+        //noinspection unchecked
+        return applicativeFunction.fmap(new F<F<L, U>, Either<U, R>>() {
+            @Override public Either<U, R> apply(F<L, U> luf) { return fmapLeft(luf); }
+        }).right();
     }
 
     public abstract R right();

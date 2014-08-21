@@ -43,5 +43,17 @@ public class EitherOps implements FunctorOps<Either<?, ?>>, ApplicativeOps<Eithe
         final Either<?, T> maybe = (Either<?, T>) monad;
         return maybe.mmap(function);
     }
+
+    public <L, R, U> Either<U, R> amapLeft(Either<L, R> app, Either<L, F<L, U>> appF) {
+        return app.amapLeft(appF);
+    }
+
+    public <L, R, U> Either<U, R> fmapLeft(Either<L, R> functor, F<L, U> function) {
+        return functor.fmapLeft(function);
+    }
+
+    public <L, R, U> Either<U, R> mmapLeft(Either<L, R> monad, F<L, Either<U, R>> function) {
+        return monad.mmapLeft(function);
+    }
 }
 
