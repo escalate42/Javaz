@@ -1,4 +1,4 @@
-package org.escalate42.javaz.common;
+package org.escalate42.javaz.common.function;
 
 /**
  * Created by vdubs

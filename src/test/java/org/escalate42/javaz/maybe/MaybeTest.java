@@ -1,6 +1,6 @@
 package org.escalate42.javaz.maybe;
 
-import org.escalate42.javaz.common.F;
+import org.escalate42.javaz.common.function.F;
 import org.junit.Test;
 import static org.escalate42.javaz.maybe.Maybe.*;
 import static org.junit.Assert.*;

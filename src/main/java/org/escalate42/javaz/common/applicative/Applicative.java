@@ -1,6 +1,6 @@
 package org.escalate42.javaz.common.applicative;
 
-import org.escalate42.javaz.common.F;
+import org.escalate42.javaz.common.function.F;
 import org.escalate42.javaz.common.functor.Functor;
 
 /**

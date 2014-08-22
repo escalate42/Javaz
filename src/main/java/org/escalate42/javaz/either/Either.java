@@ -1,6 +1,6 @@
 package org.escalate42.javaz.either;
 
-import org.escalate42.javaz.common.F;
+import org.escalate42.javaz.common.function.F;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.monad.Monad;
 
@@ -24,16 +24,6 @@ public abstract class Either<L, R> implements Serializable, Monad<R, Either<?, ?
     public <U> Either<L, U> pure(U value) { return right(value); }
 
     @Override
-    public <U, MM extends Monad<U, Either<?, ?>>> Either<L, U> mmap(F<R, MM> function) {
-        //noinspection unchecked
-        final Either<L, Either<L, U>> mapped = (Either<L, Either<L, U>>)fmap(function);
-        final Either<L, U> result;
-        if (mapped.isLeft()) { result = left(mapped.left()); }
-        else { result = mapped.right(); }
-        return result;
-    }
-
-    @Override
     public <U, MM extends Applicative<F<R, U>, Either<?, ?>>> Either<L, U> amap(MM applicativeFunction) {
         //noinspection unchecked
         final Either<L, Either<L, U>> mapped = (Either<L, Either<L, U>>)applicativeFunction.fmap(new F<F<R, U>, Either<L, U>>() {
@@ -45,18 +35,28 @@ public abstract class Either<L, R> implements Serializable, Monad<R, Either<?, ?
         return result;
     }
 
-    public abstract <U> Either<U, R> fmapLeft(F<L, U> function);
-
-    public <U> Either<U, R> mmapLeft(F<L, Either<U, R>> function) {
+    @Override
+    public <U, MM extends Monad<U, Either<?, ?>>> Either<L, U> mmap(F<R, MM> function) {
         //noinspection unchecked
-        return fmapLeft(function).left();
+        final Either<L, Either<L, U>> mapped = (Either<L, Either<L, U>>)fmap(function);
+        final Either<L, U> result;
+        if (mapped.isLeft()) { result = left(mapped.left()); }
+        else { result = mapped.right(); }
+        return result;
     }
+
+    public abstract <U> Either<U, R> fmapLeft(F<L, U> function);
 
     public <U> Either<U, R> amapLeft(Either<?, F<L, U>> applicativeFunction) {
         //noinspection unchecked
         return applicativeFunction.fmap(new F<F<L, U>, Either<U, R>>() {
             @Override public Either<U, R> apply(F<L, U> luf) { return fmapLeft(luf); }
         }).right();
+    }
+
+    public <U> Either<U, R> mmapLeft(F<L, Either<U, R>> function) {
+        //noinspection unchecked
+        return fmapLeft(function).left();
     }
 
     public abstract R right();

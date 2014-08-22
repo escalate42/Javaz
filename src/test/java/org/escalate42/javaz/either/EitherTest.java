@@ -1,6 +1,6 @@
 package org.escalate42.javaz.either;
 
-import org.escalate42.javaz.common.F;
+import org.escalate42.javaz.common.function.F;
 import org.junit.Test;
 import static org.escalate42.javaz.either.Either.*;
 import static org.junit.Assert.*;

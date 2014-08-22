@@ -1,6 +1,6 @@
 package org.escalate42.javaz.common.functor;
 
-import org.escalate42.javaz.common.F;
+import org.escalate42.javaz.common.function.F;
 
 /**
  * Created by vdubs

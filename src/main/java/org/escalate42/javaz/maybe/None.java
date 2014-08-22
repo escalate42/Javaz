@@ -1,6 +1,6 @@
 package org.escalate42.javaz.maybe;
 
-import org.escalate42.javaz.common.F;
+import org.escalate42.javaz.common.function.F;
 
 /**
  * Created by vdubs
@@ -8,7 +8,7 @@ import org.escalate42.javaz.common.F;
  */
 public final class None<T> extends Maybe<T> {
 
-    private None() {}
+    public None() {}
 
     public static <U> None<U> none() { return new None<U>(); }
 

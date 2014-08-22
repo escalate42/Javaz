@@ -1,6 +1,6 @@
 package org.escalate42.javaz.either;
 
-import org.escalate42.javaz.common.F;
+import org.escalate42.javaz.common.function.F;
 
 /**
  * Created by vdubs
@@ -8,9 +8,9 @@ import org.escalate42.javaz.common.F;
  */
 public class Left<L, R> extends Either<L, R> {
 
-    private final L leftValue;
+    public final L leftValue;
 
-    private Left(L leftValue) {
+    public Left(L leftValue) {
         if (leftValue == null) { throw new IllegalArgumentException("Value of Left<L, R> can not be null!"); }
         this.leftValue = leftValue;
     }
@@ -20,18 +20,25 @@ public class Left<L, R> extends Either<L, R> {
     @Override
     public <U> Either<L, U> fmap(F<R, U> function) { return left(this.leftValue); }
 
+    @Override
     public <U> Either<U, R> fmapLeft(F<L, U> function) { return left(function.apply(this.leftValue)); }
 
+    @Override
     public R right() { throw new IllegalAccessError(); }
 
+    @Override
     public L left() { return this.leftValue; }
 
+    @Override
     public boolean isRight() { return false; }
 
+    @Override
     public boolean isLeft() { return true; }
 
+    @Override
     public <U> U foldRight(U ifLeft, F<R, U> function) { return ifLeft; }
 
+    @Override
     public <U> U foldLeft(U ifRight, F<L, U> function) { return function.apply(this.leftValue); }
 
     @Override

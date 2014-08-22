@@ -1,6 +1,6 @@
 package org.escalate42.javaz.maybe;
 
-import org.escalate42.javaz.common.F;
+import org.escalate42.javaz.common.function.F;
 
 /**
  * Created by vdubs
@@ -8,9 +8,9 @@ import org.escalate42.javaz.common.F;
  */
 public final class Just<T> extends Maybe<T> {
 
-    private final T value;
+    public final T value;
 
-    private Just(T value) {
+    public Just(T value) {
         if (value == null) { throw new IllegalArgumentException("Value of Just<T> can not be null!"); }
         this.value = value;
     }
