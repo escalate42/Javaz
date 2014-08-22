@@ -26,15 +26,23 @@ public abstract class Either<L, R> implements Serializable, Monad<R, Either<?, ?
     @Override
     public <U, MM extends Monad<U, Either<?, ?>>> Either<L, U> mmap(F<R, MM> function) {
         //noinspection unchecked
-        return (Either<L, U>)fmap(function).right();
+        final Either<L, Either<L, U>> mapped = (Either<L, Either<L, U>>)fmap(function);
+        final Either<L, U> result;
+        if (mapped.isLeft()) { result = left(mapped.left()); }
+        else { result = mapped.right(); }
+        return result;
     }
 
     @Override
     public <U, MM extends Applicative<F<R, U>, Either<?, ?>>> Either<L, U> amap(MM applicativeFunction) {
         //noinspection unchecked
-        return (Either<L, U>)(applicativeFunction.fmap(new F<F<R, U>, Either<L, U>>() {
+        final Either<L, Either<L, U>> mapped = (Either<L, Either<L, U>>)applicativeFunction.fmap(new F<F<R, U>, Either<L, U>>() {
             @Override  public Either<L, U> apply(F<R, U> ruf) { return fmap(ruf); }
-        }).right());
+        });
+        final Either<L, U> result;
+        if (mapped.isLeft()) { result = left(mapped.left()); }
+        else { result = mapped.right(); }
+        return result;
     }
 
     public abstract <U> Either<U, R> fmapLeft(F<L, U> function);
@@ -56,4 +64,7 @@ public abstract class Either<L, R> implements Serializable, Monad<R, Either<?, ?
 
     public abstract boolean isRight();
     public abstract boolean isLeft();
+
+    public abstract <U> U foldRight(U ifLeft, F<R, U> function);
+    public abstract <U> U foldLeft(U ifRight, F<L, U> function);
 }

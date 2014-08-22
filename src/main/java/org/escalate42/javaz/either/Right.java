@@ -31,4 +31,22 @@ public class Right<L, R> extends Either<L, R> {
     public boolean isRight() { return true; }
 
     public boolean isLeft() { return false; }
+
+    public <U> U foldRight(U ifLeft, F<R, U> function) { return function.apply(this.rightValue); }
+
+    public <U> U foldLeft(U ifRight, F<L, U> function) { return ifRight; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Right right = (Right) o;
+        return rightValue.equals(right.rightValue);
+    }
+
+    @Override
+    public int hashCode() { return this.rightValue.hashCode(); }
+
+    @Override
+    public String toString() { return "Right(" + this.rightValue + ')'; }
 }

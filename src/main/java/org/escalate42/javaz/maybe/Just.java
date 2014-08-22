@@ -37,6 +37,11 @@ public final class Just<T> extends Maybe<T> {
     }
 
     @Override
+    public <U> U fold(U ifNone, F<T, U> function) {
+        return function.apply(this.value);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -48,4 +53,7 @@ public final class Just<T> extends Maybe<T> {
     public int hashCode() {
         return value.hashCode();
     }
+
+    @Override
+    public String toString() { return "Just(" + this.value + ')'; }
 }

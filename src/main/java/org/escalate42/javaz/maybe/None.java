@@ -30,7 +30,15 @@ public final class None<T> extends Maybe<T> {
     public <U> Maybe<U> fmap(F<T, U> function) { return none(); }
 
     @Override
+    public <U> U fold(U ifNone, F<T, U> function) {
+        return ifNone;
+    }
+
+    @Override
     public boolean equals(Object o) {
         return !(o == null || getClass() != o.getClass());
     }
+
+    @Override
+    public String toString() { return "None"; }
 }

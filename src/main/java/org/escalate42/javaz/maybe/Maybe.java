@@ -50,4 +50,6 @@ public abstract class Maybe<T> implements Serializable, Monad<T, Maybe<?>> {
     public abstract T orElse(T elseValue);
 
     public abstract Maybe<T> or(Maybe<T> elseValue);
+
+    public abstract <U> U fold(U ifNone, F<T, U> function);
 }
