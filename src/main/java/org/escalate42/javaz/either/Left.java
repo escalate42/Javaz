@@ -1,12 +1,15 @@
 package org.escalate42.javaz.either;
 
+import org.escalate42.javaz.common.applicative.ApplicativeOps;
 import org.escalate42.javaz.common.function.F;
+import org.escalate42.javaz.common.functor.FunctorOps;
+import org.escalate42.javaz.common.monad.MonadOps;
 
 /**
  * Created by vdubs
  * on 8/21/14.
  */
-public class Left<L, R> extends Either<L, R> {
+public final class Left<L, R> extends Either<L, R> {
 
     public final L leftValue;
 

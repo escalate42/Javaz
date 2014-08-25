@@ -3,6 +3,7 @@ package org.escalate42.javaz.either;
 import org.escalate42.javaz.common.function.F;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.monad.Monad;
+import org.escalate42.javaz.common.monad.MonadOps;
 
 import java.io.Serializable;
 
@@ -67,4 +68,7 @@ public abstract class Either<L, R> implements Serializable, Monad<R, Either<?, ?
 
     public abstract <U> U foldRight(U ifLeft, F<R, U> function);
     public abstract <U> U foldLeft(U ifRight, F<L, U> function);
+
+    @Override
+    public MonadOps<Either<?, ?>> ops() { return EitherOps.id; }
 }

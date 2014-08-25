@@ -3,6 +3,7 @@ package org.escalate42.javaz.maybe;
 import org.escalate42.javaz.common.function.F;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.monad.Monad;
+import org.escalate42.javaz.common.monad.MonadOps;
 
 import java.io.Serializable;
 
@@ -52,4 +53,7 @@ public abstract class Maybe<T> implements Serializable, Monad<T, Maybe<?>> {
     public abstract Maybe<T> or(Maybe<T> elseValue);
 
     public abstract <U> U fold(U ifNone, F<T, U> function);
+
+    @Override
+    public MonadOps<Maybe<?>> ops() { return MaybeOps.id; }
 }

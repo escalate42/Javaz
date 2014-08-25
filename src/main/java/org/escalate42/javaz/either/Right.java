@@ -6,7 +6,7 @@ import org.escalate42.javaz.common.function.F;
  * Created by vdubs
  * on 8/21/14.
  */
-public class Right<L, R> extends Either<L, R> {
+public final class Right<L, R> extends Either<L, R> {
 
     public final R rightValue;
 

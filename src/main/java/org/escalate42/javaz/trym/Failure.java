@@ -7,7 +7,7 @@ import org.escalate42.javaz.common.function.TF;
  * Created by vdubs
  * on 8/22/14.
  */
-public class Failure<T> extends TryM<T> {
+public final class Failure<T> extends TryM<T> {
 
     public final Throwable throwable;
 

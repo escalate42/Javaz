@@ -7,7 +7,7 @@ import org.escalate42.javaz.common.function.TF;
  * Created by vdubs
  * on 8/22/14.
  */
-public class Try<A, B> implements F<A, TryM<B>> {
+public final class Try<A, B> implements F<A, TryM<B>> {
 
     public final TF<A, B> function;
 

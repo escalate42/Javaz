@@ -4,6 +4,7 @@ import org.escalate42.javaz.common.function.F;
 import org.escalate42.javaz.common.function.TF;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.monad.Monad;
+import org.escalate42.javaz.common.monad.MonadOps;
 
 import java.io.Serializable;
 
@@ -84,4 +85,7 @@ public abstract class TryM<T> implements Serializable, Monad<T, TryM<?>> {
                 ifSuccess
         );
     }
+
+    @Override
+    public MonadOps<TryM<?>> ops() { return TryMOps.id; }
 }

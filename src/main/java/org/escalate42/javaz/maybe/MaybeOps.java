@@ -12,7 +12,7 @@ import org.escalate42.javaz.common.monad.MonadOps;
  * Created by vdubs
  * on 8/21/14.
  */
-public class MaybeOps implements FunctorOps<Maybe<?>>, ApplicativeOps<Maybe<?>>, MonadOps<Maybe<?>> {
+public final class MaybeOps implements MonadOps<Maybe<?>> {
 
     private MaybeOps() {}
 

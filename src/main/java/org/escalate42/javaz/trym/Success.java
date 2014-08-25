@@ -8,7 +8,7 @@ import org.escalate42.javaz.common.function.TF;
  * Created by vdubs
  * on 8/22/14.
  */
-public class Success<T> extends TryM<T> {
+public final class Success<T> extends TryM<T> {
 
     public final T value;
 

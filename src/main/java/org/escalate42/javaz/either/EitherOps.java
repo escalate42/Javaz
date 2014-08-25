@@ -2,9 +2,7 @@ package org.escalate42.javaz.either;
 
 import org.escalate42.javaz.common.function.F;
 import org.escalate42.javaz.common.applicative.Applicative;
-import org.escalate42.javaz.common.applicative.ApplicativeOps;
 import org.escalate42.javaz.common.functor.Functor;
-import org.escalate42.javaz.common.functor.FunctorOps;
 import org.escalate42.javaz.common.monad.Monad;
 import org.escalate42.javaz.common.monad.MonadOps;
 
@@ -12,7 +10,7 @@ import org.escalate42.javaz.common.monad.MonadOps;
  * Created by vdubs
  * on 8/21/14.
  */
-public class EitherOps implements FunctorOps<Either<?, ?>>, ApplicativeOps<Either<?, ?>>, MonadOps<Either<?, ?>> {
+public final class EitherOps implements MonadOps<Either<?, ?>> {
 
     private EitherOps() {}
 
