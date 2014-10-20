@@ -1,9 +1,6 @@
 package org.escalate42.javaz.either;
 
-import org.escalate42.javaz.common.applicative.ApplicativeOps;
-import org.escalate42.javaz.common.function.F;
-import org.escalate42.javaz.common.functor.FunctorOps;
-import org.escalate42.javaz.common.monad.MonadOps;
+import org.escalate42.javaz.common.function.Function;
 
 /**
  * Created by vdubs
@@ -21,10 +18,10 @@ public final class Left<L, R> extends Either<L, R> {
     public static <L, R> Left<L, R> left(L value) { return new Left<L, R>(value); }
 
     @Override
-    public <U> Either<L, U> fmap(F<R, U> function) { return left(this.leftValue); }
+    public <U> Either<L, U> fmap(Function<R, U> function) { return left(this.leftValue); }
 
     @Override
-    public <U> Either<U, R> fmapLeft(F<L, U> function) { return left(function.apply(this.leftValue)); }
+    public <U> Either<U, R> fmapLeft(Function<L, U> function) { return left(function.apply(this.leftValue)); }
 
     @Override
     public R right() { throw new IllegalAccessError(); }
@@ -39,10 +36,10 @@ public final class Left<L, R> extends Either<L, R> {
     public boolean isLeft() { return true; }
 
     @Override
-    public <U> U foldRight(U ifLeft, F<R, U> function) { return ifLeft; }
+    public <U> U foldRight(U ifLeft, Function<R, U> function) { return ifLeft; }
 
     @Override
-    public <U> U foldLeft(U ifRight, F<L, U> function) { return function.apply(this.leftValue); }
+    public <U> U foldLeft(U ifRight, Function<L, U> function) { return function.apply(this.leftValue); }
 
     @Override
     public boolean equals(Object o) {

@@ -1,10 +1,8 @@
 package org.escalate42.javaz.trym;
 
 import org.escalate42.javaz.common.applicative.Applicative;
-import org.escalate42.javaz.common.applicative.ApplicativeOps;
-import org.escalate42.javaz.common.function.F;
+import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.functor.Functor;
-import org.escalate42.javaz.common.functor.FunctorOps;
 import org.escalate42.javaz.common.monad.Monad;
 import org.escalate42.javaz.common.monad.MonadOps;
 
@@ -20,7 +18,7 @@ public final class TryMOps implements MonadOps<TryM<?>> {
     public static final TryMOps id = new TryMOps();
 
     @Override
-    public <T, U, MM extends Functor<T, TryM<?>>> TryM<U> fmap(MM functor, F<T, U> function) {
+    public <T, U, MM extends Functor<T, TryM<?>>> TryM<U> fmap(MM functor, Function<T, U> function) {
         return (TryM<U>)functor.fmap(function);
     }
 
@@ -28,12 +26,12 @@ public final class TryMOps implements MonadOps<TryM<?>> {
     public <U> TryM<U> pure(U value) { return TryM.success(value); }
 
     @Override
-    public <T, U, MM extends Applicative<T, TryM<?>>, MF extends Applicative<F<T, U>, TryM<?>>> TryM<U> amap(MM app, MF appF) {
+    public <T, U, MM extends Applicative<T, TryM<?>>, MF extends Applicative<Function<T, U>, TryM<?>>> TryM<U> amap(MM app, MF appF) {
         return (TryM<U>)app.amap(appF);
     }
 
     @Override
-    public <T, U, MM extends Monad<U, TryM<?>>> TryM<?> mmap(TryM<?> monad, F<T, MM> function) {
+    public <T, U, MM extends Monad<U, TryM<?>>> TryM<?> mmap(TryM<?> monad, Function<T, MM> function) {
         return ((TryM<T>)monad).mmap(function);
     }
 }

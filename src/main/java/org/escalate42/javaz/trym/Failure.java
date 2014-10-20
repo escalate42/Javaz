@@ -1,7 +1,7 @@
 package org.escalate42.javaz.trym;
 
-import org.escalate42.javaz.common.function.F;
-import org.escalate42.javaz.common.function.TF;
+import org.escalate42.javaz.common.function.Function;
+import org.escalate42.javaz.common.function.TryFunction;
 
 /**
  * Created by vdubs
@@ -19,10 +19,10 @@ public final class Failure<T> extends TryM<T> {
     public static <U> Failure<U> fail(Throwable throwable) { return new Failure<U>(throwable); }
 
     @Override
-    public <U> TryM<U> fmap(F<T, U> function) { return fail(this.throwable); }
+    public <U> TryM<U> fmap(Function<T, U> function) { return fail(this.throwable); }
 
     @Override
-    public <U> TryM<U> fmap(TF<T, U> function) { return fail(this.throwable); }
+    public <U> TryM<U> fmap(TryFunction<T, U> function) { return fail(this.throwable); }
 
     @Override
     public boolean isSuccess() { return false; }
@@ -35,7 +35,7 @@ public final class Failure<T> extends TryM<T> {
     public Throwable throwable() { return this.throwable; }
 
     @Override
-    public <U> U fold(F<Throwable, U> ifFailure, F<T, U> ifSuccess) { return ifFailure.apply(this.throwable); }
+    public <U> U fold(Function<Throwable, U> ifFailure, Function<T, U> ifSuccess) { return ifFailure.apply(this.throwable); }
 
     @Override
     public boolean equals(Object o) {

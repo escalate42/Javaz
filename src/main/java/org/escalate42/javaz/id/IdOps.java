@@ -1,10 +1,8 @@
 package org.escalate42.javaz.id;
 
 import org.escalate42.javaz.common.applicative.Applicative;
-import org.escalate42.javaz.common.applicative.ApplicativeOps;
-import org.escalate42.javaz.common.function.F;
+import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.functor.Functor;
-import org.escalate42.javaz.common.functor.FunctorOps;
 import org.escalate42.javaz.common.monad.Monad;
 import org.escalate42.javaz.common.monad.MonadOps;
 
@@ -20,7 +18,7 @@ public final class IdOps implements MonadOps<Id<?>> {
     public static final IdOps id = new IdOps();
 
     @Override
-    public <T, U, MM extends Functor<T, Id<?>>> Id<U> fmap(MM functor, F<T, U> function) {
+    public <T, U, MM extends Functor<T, Id<?>>> Id<U> fmap(MM functor, Function<T, U> function) {
         return (Id<U>)functor.fmap(function);
     }
 
@@ -28,12 +26,12 @@ public final class IdOps implements MonadOps<Id<?>> {
     public <U> Id<U> pure(U value) { return Id.id(value); }
 
     @Override
-    public <T, U, MM extends Applicative<T, Id<?>>, MF extends Applicative<F<T, U>, Id<?>>> Id<U> amap(MM app, MF appF) {
+    public <T, U, MM extends Applicative<T, Id<?>>, MF extends Applicative<Function<T, U>, Id<?>>> Id<U> amap(MM app, MF appF) {
         return (Id<U>)app.amap(appF);
     }
 
     @Override
-    public <T, U, MM extends Monad<U, Id<?>>> Id<U> mmap(Id<?> monad, F<T, MM> function) {
+    public <T, U, MM extends Monad<U, Id<?>>> Id<U> mmap(Id<?> monad, Function<T, MM> function) {
         return ((Id<T>)monad).mmap(function);
     }
 }

@@ -1,6 +1,6 @@
 package org.escalate42.javaz.id;
 
-import org.escalate42.javaz.common.function.F;
+import org.escalate42.javaz.common.function.Function;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -16,26 +16,26 @@ public class IdTest {
 
     @Test
     public void fmapTest() {
-        final F<String, String> f = new F<String, String>() {
+        final Function<String, String> function = new Function<String, String>() {
             @Override public String apply(String s) { return s + "two"; }
         };
-        assertEquals(id("onetwo"), id("one").fmap(f));
+        assertEquals(id("onetwo"), id("one").fmap(function));
     }
 
     @Test
     public void amapTest() {
-        final F<String, String> f = new F<String, String>() {
+        final Function<String, String> function = new Function<String, String>() {
             @Override public String apply(String s) { return s + "two"; }
         };
-        final Id<F<String, String>> fa = id.pure(f);
+        final Id<Function<String, String>> fa = id.pure(function);
         assertEquals(id("onetwo"), id("one").amap(fa));
     }
 
     @Test
     public void mmapTest() {
-        final F<String, Id<String>> f = new F<String, Id<String>>() {
+        final Function<String, Id<String>> function = new Function<String, Id<String>>() {
             @Override public Id<String> apply(String s) { return id.pure(s + "two"); }
         };
-        assertEquals(id("onetwo"), id("one").mmap(f));
+        assertEquals(id("onetwo"), id("one").mmap(function));
     }
 }

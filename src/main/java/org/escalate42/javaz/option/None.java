@@ -1,12 +1,12 @@
-package org.escalate42.javaz.maybe;
+package org.escalate42.javaz.option;
 
-import org.escalate42.javaz.common.function.F;
+import org.escalate42.javaz.common.function.Function;
 
 /**
  * Created by vdubs
  * on 8/20/14.
  */
-public final class None<T> extends Maybe<T> {
+public final class None<T> extends Option<T> {
 
     public None() {}
 
@@ -24,13 +24,13 @@ public final class None<T> extends Maybe<T> {
     public T orElse(T elseValue) { return elseValue; }
 
     @Override
-    public Maybe<T> or(Maybe<T> elseValue) { return elseValue; }
+    public Option<T> or(Option<T> elseValue) { return elseValue; }
 
     @Override
-    public <U> Maybe<U> fmap(F<T, U> function) { return none(); }
+    public <U> Option<U> fmap(Function<T, U> function) { return none(); }
 
     @Override
-    public <U> U fold(U ifNone, F<T, U> function) {
+    public <U> U fold(U ifNone, Function<T, U> function) {
         return ifNone;
     }
 

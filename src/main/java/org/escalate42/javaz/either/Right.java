@@ -1,6 +1,6 @@
 package org.escalate42.javaz.either;
 
-import org.escalate42.javaz.common.function.F;
+import org.escalate42.javaz.common.function.Function;
 
 /**
  * Created by vdubs
@@ -18,12 +18,12 @@ public final class Right<L, R> extends Either<L, R> {
     public static <L, R> Right<L, R> right(R value) { return new Right<L, R>(value); }
 
     @Override
-    public <U> Either<L, U> fmap(F<R, U> function) {
+    public <U> Either<L, U> fmap(Function<R, U> function) {
         return right(function.apply(this.rightValue));
     }
 
     @Override
-    public <U> Either<U, R> fmapLeft(F<L, U> function) { return right(this.rightValue); }
+    public <U> Either<U, R> fmapLeft(Function<L, U> function) { return right(this.rightValue); }
 
     @Override
     public R right() { return this.rightValue; }
@@ -38,10 +38,10 @@ public final class Right<L, R> extends Either<L, R> {
     public boolean isLeft() { return false; }
 
     @Override
-    public <U> U foldRight(U ifLeft, F<R, U> function) { return function.apply(this.rightValue); }
+    public <U> U foldRight(U ifLeft, Function<R, U> function) { return function.apply(this.rightValue); }
 
     @Override
-    public <U> U foldLeft(U ifRight, F<L, U> function) { return ifRight; }
+    public <U> U foldLeft(U ifRight, Function<L, U> function) { return ifRight; }
 
     @Override
     public boolean equals(Object o) {
