@@ -27,6 +27,11 @@ public final class Id<T> implements Monad<T, Id<?>> {
     }
 
     @Override
+    public void foreach(Function<T, Void> function) {
+        function.apply(this.value);
+    }
+
+    @Override
     public <U> Id<U> pure(U value) {
         return id(value);
     }

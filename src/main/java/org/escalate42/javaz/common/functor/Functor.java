@@ -9,4 +9,5 @@ import org.escalate42.javaz.common.function.Function;
 public interface Functor<T, M extends Functor<?, M>> {
     public FunctorOps<M> ops();
     public <U> M fmap(Function<T, U> function);
+    public void foreach(Function<T, Void> function);
 }

@@ -23,6 +23,11 @@ public final class Success<T> extends TryM<T> {
     public <U> TryM<U> fmap(Function<T, U> function) { return fmap(FunctionOps.asTf(function)); }
 
     @Override
+    public void foreach(Function<T, Void> function) {
+        function.apply(this.value);
+    }
+
+    @Override
     public <U> TryM<U> fmap(TryFunction<T, U> function)  { return TryM.tryM(function, this.value); }
 
     @Override

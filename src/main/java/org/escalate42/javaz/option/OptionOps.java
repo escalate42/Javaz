@@ -39,6 +39,13 @@ public final class OptionOps implements MonadOps<Option<?>> {
     }
 
     @Override
+    public <T, MM extends Functor<T, Option<?>>> void foreach(MM functor, Function<T, Void> function) {
+        //not safe, but the easiest way to make pretty API
+        //noinspection unchecked
+        functor.foreach(function);
+    }
+
+    @Override
     public <T, U, MM extends Monad<U, Option<?>>> Option<U> mmap(Option<?> monad, Function<T, MM> function) {
         //noinspection unchecked
         final Option<T> option = (Option<T>) monad;

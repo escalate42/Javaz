@@ -23,6 +23,11 @@ public final class Right<L, R> extends Either<L, R> {
     }
 
     @Override
+    public void foreach(Function<R, Void> function) {
+        function.apply(this.rightValue);
+    }
+
+    @Override
     public <U> Either<U, R> fmapLeft(Function<L, U> function) { return right(this.rightValue); }
 
     @Override

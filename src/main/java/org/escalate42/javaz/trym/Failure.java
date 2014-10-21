@@ -22,6 +22,10 @@ public final class Failure<T> extends TryM<T> {
     public <U> TryM<U> fmap(Function<T, U> function) { return fail(this.throwable); }
 
     @Override
+    public void foreach(Function<T, Void> function) {
+    }
+
+    @Override
     public <U> TryM<U> fmap(TryFunction<T, U> function) { return fail(this.throwable); }
 
     @Override

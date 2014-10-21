@@ -21,6 +21,10 @@ public final class Left<L, R> extends Either<L, R> {
     public <U> Either<L, U> fmap(Function<R, U> function) { return left(this.leftValue); }
 
     @Override
+    public void foreach(Function<R, Void> function) {
+    }
+
+    @Override
     public <U> Either<U, R> fmapLeft(Function<L, U> function) { return left(function.apply(this.leftValue)); }
 
     @Override

@@ -37,6 +37,11 @@ public final class Some<T> extends Option<T> {
     }
 
     @Override
+    public void foreach(Function<T, Void> function) {
+        function.apply(this.value);
+    }
+
+    @Override
     public <U> U fold(U ifNone, Function<T, U> function) {
         return function.apply(this.value);
     }

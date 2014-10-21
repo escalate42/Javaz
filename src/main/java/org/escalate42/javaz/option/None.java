@@ -30,6 +30,10 @@ public final class None<T> extends Option<T> {
     public <U> Option<U> fmap(Function<T, U> function) { return none(); }
 
     @Override
+    public void foreach(Function<T, Void> function) {
+    }
+
+    @Override
     public <U> U fold(U ifNone, Function<T, U> function) {
         return ifNone;
     }

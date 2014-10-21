@@ -23,6 +23,11 @@ public final class IdOps implements MonadOps<Id<?>> {
     }
 
     @Override
+    public <T, MM extends Functor<T, Id<?>>> void foreach(MM functor, Function<T, Void> function) {
+        functor.foreach(function);
+    }
+
+    @Override
     public <U> Id<U> pure(U value) { return Id.id(value); }
 
     @Override
