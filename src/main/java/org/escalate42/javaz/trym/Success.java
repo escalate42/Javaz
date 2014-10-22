@@ -8,7 +8,7 @@ import org.escalate42.javaz.common.function.TryFunction;
  * Created by vdubs
  * on 8/22/14.
  */
-public final class Success<T> extends TryM<T> {
+public class Success<T> extends TryMImpl<T> {
 
     public final T value;
 
@@ -28,7 +28,7 @@ public final class Success<T> extends TryM<T> {
     }
 
     @Override
-    public <U> TryM<U> fmap(TryFunction<T, U> function)  { return TryM.tryM(function, this.value); }
+    public <U> TryM<U> fmap(TryFunction<T, U> function)  { return TryMImpl.tryM(function, this.value); }
 
     @Override
     public boolean isSuccess() { return true; }

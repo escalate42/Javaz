@@ -31,7 +31,7 @@ public final class TryMOps implements MonadOps<TryM<?>> {
     }
 
     @Override
-    public <U> TryM<U> pure(U value) { return TryM.success(value); }
+    public <U> TryM<U> pure(U value) { return TryMImpl.success(value); }
 
     @Override
     public <T, U, MM extends Applicative<T, TryM<?>>, MF extends Applicative<Function<T, U>, TryM<?>>> TryM<U> amap(MM app, MF appF) {
@@ -46,9 +46,9 @@ public final class TryMOps implements MonadOps<TryM<?>> {
     public <U, A1, A2> TryM<U> yieldFor(TryM<A1> a1TryM, TryM<A2> a2TryM, Function2<A1, A2, U> function2) {
         final TryM<U> result;
         if (a1TryM.isSuccess() && a2TryM.isSuccess()) {
-            result = TryM.success(function2.apply2(a1TryM.value(), a2TryM.value()));
+            result = TryMImpl.success(function2.apply2(a1TryM.value(), a2TryM.value()));
         } else {
-            result = TryM.fail(a1TryM.isFailure() ? a1TryM.throwable() : a2TryM.throwable());
+            result = TryMImpl.fail(a1TryM.isFailure() ? a1TryM.throwable() : a2TryM.throwable());
         }
         return result;
     }
@@ -58,7 +58,7 @@ public final class TryMOps implements MonadOps<TryM<?>> {
         if (a1TryM.isSuccess()) {
             result = yieldFor(a2TryM, a3TryM, function3.carry(a1TryM.value()));
         } else {
-            result = TryM.fail(a1TryM.throwable());
+            result = TryMImpl.fail(a1TryM.throwable());
         }
         return result;
     }
@@ -68,7 +68,7 @@ public final class TryMOps implements MonadOps<TryM<?>> {
         if (a1TryM.isSuccess()) {
             result = yieldFor(a2TryM, a3TryM, a4TryM, function4.carry(a1TryM.value()));
         } else {
-            result = TryM.fail(a1TryM.throwable());
+            result = TryMImpl.fail(a1TryM.throwable());
         }
         return result;
     }

@@ -3,7 +3,7 @@ package org.escalate42.javaz.option;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.function.extra.Function3;
 import org.junit.Test;
-import static org.escalate42.javaz.option.Option.*;
+import static org.escalate42.javaz.option.OptionImpl.*;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -14,14 +14,14 @@ public class OptionTest {
 
     @Test
     public void maybeTest() {
-        assertEquals(some("some string"), maybe("some string"));
-        assertEquals(none(), maybe(null));
+        assertEquals(some("some string"), option("some string"));
+        assertEquals(none(), option(null));
     }
 
     @Test
     public void maybeOrTest() {
         final Option<String> first = none();
-        final Option<String> second = maybe("second");
+        final Option<String> second = option("second");
         assertEquals("second", first.or(second).orElse("third"));
     }
 
@@ -33,9 +33,9 @@ public class OptionTest {
                 return s + "two";
             }
         };
-        assertEquals(some("onetwo"), maybe("one").fmap(function));
+        assertEquals(some("onetwo"), option("one").fmap(function));
         //noinspection AssertEqualsBetweenInconvertibleTypes
-        assertEquals(none(), maybe((String) null).fmap(function));
+        assertEquals(none(), option((String) null).fmap(function));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class OptionTest {
             }
         };
         final Option<Function<String, String>> appF = OptionOps.id.pure(function);
-        assertEquals(some("onetwo"), maybe("one").amap(appF));
+        assertEquals(some("onetwo"), option("one").amap(appF));
     }
 
     @Test
@@ -58,8 +58,8 @@ public class OptionTest {
                 return some(s + "two");
             }
         };
-        assertEquals(some("onetwo"), maybe("one").mmap(function));
-        assertEquals(none(), maybe(null));
+        assertEquals(some("onetwo"), option("one").mmap(function));
+        assertEquals(none(), option(null));
     }
 
     @Test
@@ -78,9 +78,9 @@ public class OptionTest {
             }
         };
         final Option<Function<String, String>> appF = id.pure(function);
-        assertEquals(some("onetwo"), id.fmap(maybe("one"), function));
-        assertEquals(some("onetwo"), id.amap(maybe("one"), appF));
-        assertEquals(some("onetwo"), id.mmap(maybe("one"), fm));
+        assertEquals(some("onetwo"), id.fmap(option("one"), function));
+        assertEquals(some("onetwo"), id.amap(option("one"), appF));
+        assertEquals(some("onetwo"), id.mmap(option("one"), fm));
     }
 
     @Test

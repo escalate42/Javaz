@@ -7,7 +7,7 @@ import org.escalate42.javaz.common.function.TryFunction;
  * Created by vdubs
  * on 8/22/14.
  */
-public final class Failure<T> extends TryM<T> {
+public class Failure<T> extends TryMImpl<T> {
 
     public final Throwable throwable;
 

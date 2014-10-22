@@ -6,7 +6,7 @@ import org.escalate42.javaz.common.function.Function;
  * Created by vdubs
  * on 8/20/14.
  */
-public final class None<T> extends Option<T> {
+public class None<T> extends OptionImpl<T> {
 
     public None() {}
 

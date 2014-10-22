@@ -2,7 +2,7 @@ package org.escalate42.javaz.either;
 
 import org.escalate42.javaz.common.function.Function;
 import org.junit.Test;
-import static org.escalate42.javaz.either.Either.*;
+import static org.escalate42.javaz.either.EitherImpl.*;
 import static org.junit.Assert.*;
 
 /**

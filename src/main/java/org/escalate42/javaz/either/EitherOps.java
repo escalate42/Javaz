@@ -20,7 +20,7 @@ public final class EitherOps implements MonadOps<Either<?, ?>> {
     public static final EitherOps id = new EitherOps();
 
     @Override
-    public <U> Either<?, U> pure(final U value) { return Either.right(value); }
+    public <U> Either<?, U> pure(final U value) { return EitherImpl.right(value); }
 
     @Override
     public <T, U, MM extends Applicative<T, Either<?, ?>>, MF extends Applicative<Function<T, U>, Either<?, ?>>> Either<?, U> amap(MM app, MF appF) {
@@ -65,9 +65,9 @@ public final class EitherOps implements MonadOps<Either<?, ?>> {
     public <L, U, A1, A2> Either<L, U> yieldFor(Either<L, A1> a1Either, Either<L, A2> a2Either, Function2<A1, A2, U> function2) {
         final Either<L, U> result;
         if (a1Either.isRight() && a2Either.isRight()) {
-            result = Either.right(function2.apply2(a1Either.right(), a2Either.right()));
+            result = EitherImpl.right(function2.apply2(a1Either.right(), a2Either.right()));
         } else {
-            result = Either.left(a1Either.isLeft() ? a1Either.left() : a2Either.left());
+            result = EitherImpl.left(a1Either.isLeft() ? a1Either.left() : a2Either.left());
         }
         return result;
     }
@@ -77,7 +77,7 @@ public final class EitherOps implements MonadOps<Either<?, ?>> {
         if (a1Either.isRight()) {
             result = yieldFor(a2Either, a3Either, function3.carry(a1Either.right()));
         } else {
-            result = Either.left(a1Either.left());
+            result = EitherImpl.left(a1Either.left());
         }
         return result;
     }
@@ -87,7 +87,7 @@ public final class EitherOps implements MonadOps<Either<?, ?>> {
         if (a1Either.isRight()) {
             result = yieldFor(a2Either, a3Either, a4Either, function4.carry(a1Either.right()));
         } else {
-            result = Either.left(a1Either.left());
+            result = EitherImpl.left(a1Either.left());
         }
         return result;
     }

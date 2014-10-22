@@ -3,7 +3,7 @@ package org.escalate42.javaz.trym;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.function.TryFunction;
 import org.junit.Test;
-import static org.escalate42.javaz.trym.TryM.*;
+import static org.escalate42.javaz.trym.TryMImpl.*;
 import static org.junit.Assert.assertEquals;
 
 /**

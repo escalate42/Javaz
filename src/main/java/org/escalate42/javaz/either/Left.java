@@ -6,7 +6,7 @@ import org.escalate42.javaz.common.function.Function;
  * Created by vdubs
  * on 8/21/14.
  */
-public final class Left<L, R> extends Either<L, R> {
+public class Left<L, R> extends EitherImpl<L, R> {
 
     public final L leftValue;
 
