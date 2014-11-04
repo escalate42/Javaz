@@ -6,6 +6,7 @@ import org.escalate42.javaz.common.function.Function;
  * Created by vdubs
  * on 8/21/14.
  */
+@SuppressWarnings("unchecked")
 public class Right<L, R> extends EitherImpl<L, R> {
 
     public final R rightValue;
@@ -15,7 +16,7 @@ public class Right<L, R> extends EitherImpl<L, R> {
         this.rightValue = rightValue;
     }
 
-    public static <L, R> Right<L, R> right(R value) { return new Right<L, R>(value); }
+    public static <L, R> Right<L, R> right(R value) { return new Right<>(value); }
 
     @Override
     public <U> Either<L, U> fmap(Function<R, U> function) {
