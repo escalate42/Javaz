@@ -2,12 +2,9 @@ package org.escalate42.javaz.writer;
 
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.monad.Monad;
-import org.escalate42.javaz.common.monad.MonadOps;
 import org.escalate42.javaz.common.monoid.Monoid;
 import org.escalate42.javaz.common.monoid.MonoidOps;
-import org.escalate42.javaz.common.monoid.impl.StringMonoid;
 import org.escalate42.javaz.common.tuple.Tuple2;
-import org.escalate42.javaz.option.OptionImpl;
 
 /**
  * Created by vadimvd
@@ -51,12 +48,18 @@ public class WriterT<T, MT extends Monoid<?, MT>, A, MA extends Monad<?, MA>> {
             this.monoidOps
         );
     }
+    public <U> WriterT<T, MT, U, MA> fmap(final Function<A, U> function) {
+        return writerTM(
+            (Monad<Tuple2<U, MT>, MA>) this.body.fmap(new Function<Tuple2<A, MT>, Tuple2<U, MT>>() {
+                @Override public Tuple2<U, MT> apply(Tuple2<A, MT> tuple) {
+                    return Tuple2.t(function.apply(tuple.first), tuple.second);
+                }
+            }),
+            this.monoidOps
+        );
+    }
     @Override
     public String toString() {
         return "WriterT{" + this.body + '}';
-    }
-
-    public static void main(final String[] args) {
-        System.out.println(writerT(OptionImpl.option("Value"), StringMonoid.Ops.stringMonoid).tell("Log message").run());
     }
 }

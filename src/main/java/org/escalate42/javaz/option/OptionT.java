@@ -28,11 +28,11 @@ public class OptionT<T, M extends Monad<?, M>> {
             })
         );
     }
-    public <U> OptionT<U, M> amap(final Option<Function<T, Option<U>>> function) {
+    public <U> OptionT<U, M> amap(final Option<Function<T, U>> function) {
         return optionT(
             (Monad<Option<U>, M>) this.body.fmap(new Function<Option<T>, Option<U>>() {
                 @Override public Option<U> apply(Option<T> tOption) {
-                    return (Option<U>)tOption.amap(function);
+                    return tOption.amap(function);
                 }
             })
         );
