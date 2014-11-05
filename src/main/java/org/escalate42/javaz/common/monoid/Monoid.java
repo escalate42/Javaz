@@ -5,6 +5,6 @@ package org.escalate42.javaz.common.monoid;
  * on 8/21/14.
  */
 public interface Monoid<T, M extends Monoid<?, M>> {
-    public M mzero();
     public M mappend(M another);
+    public T value();
 }

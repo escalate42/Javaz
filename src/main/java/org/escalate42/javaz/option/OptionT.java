@@ -99,7 +99,6 @@ public class OptionT<T, M extends Monad<?, M>> {
     }
     @Override
     public String toString() {
-        return "OptionT{" + body + '}';
+        return "OptionT{" + this.body + '}';
     }
-
 }
