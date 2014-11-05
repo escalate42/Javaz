@@ -3,7 +3,6 @@ package org.escalate42.javaz.id;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.monad.Monad;
-import org.escalate42.javaz.common.monad.MonadOps;
 
 /**
  * Created by vdubs
@@ -19,7 +18,7 @@ public final class Id<T> implements Monad<T, Id<?>> {
         this.value = value;
     }
 
-    public static <U> Id<U> id(U value) { return new Id<U>(value); }
+    public static <U> Id<U> id(U value) { return new Id<>(value); }
 
     @Override
     public <U> Id<U> fmap(Function<T, U> function) {
@@ -61,7 +60,4 @@ public final class Id<T> implements Monad<T, Id<?>> {
 
     @Override
     public String toString() { return "Id(" + this.value + ')'; }
-
-    @Override
-    public MonadOps<Id<?>> ops() { return IdOps.id; }
 }
