@@ -26,6 +26,9 @@ public abstract class OptionImpl<T> implements Serializable, Option<T> {
     public abstract <U> Option<U> fmap(Function<T, U> function);
 
     @Override
+    public abstract Option<T> filter(Function<T, Boolean> predicate);
+
+    @Override
     public <U> Option<U> pure(U value) { return option(value); }
 
     @Override
@@ -53,7 +56,4 @@ public abstract class OptionImpl<T> implements Serializable, Option<T> {
     public abstract Option<T> or(Option<T> elseValue);
 
     public abstract <U> U fold(U ifNone, Function<T, U> function);
-
-    @Override
-    public MonadOps<Option<?>> ops() { return OptionOps.id; }
 }

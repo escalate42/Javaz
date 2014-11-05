@@ -30,6 +30,9 @@ public class None<T> extends OptionImpl<T> {
     public <U> Option<U> fmap(Function<T, U> function) { return none(); }
 
     @Override
+    public Option<T> filter(Function<T, Boolean> predicate) { return none(); }
+
+    @Override
     public void foreach(Function<T, Void> function) {
     }
 

@@ -1,5 +1,7 @@
 package org.escalate42.javaz.option;
 
+import org.escalate42.javaz.common.filterable.Filterable;
+import org.escalate42.javaz.common.filterable.FilterableOps;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.function.extra.Function2;
@@ -13,7 +15,7 @@ import org.escalate42.javaz.common.monad.MonadOps;
  * Created by vdubs
  * on 8/21/14.
  */
-public final class OptionOps implements MonadOps<Option<?>> {
+public final class OptionOps implements MonadOps<Option<?>>, FilterableOps<Option<?>> {
 
     private OptionOps() {}
 
@@ -36,6 +38,11 @@ public final class OptionOps implements MonadOps<Option<?>> {
         //noinspection unchecked
         final Option<T> option = (Option<T>) functor;
         return option.fmap(function);
+    }
+
+    @Override
+    public <T, MM extends Filterable<T, Option<?>>> Option<?> filter(MM filterable, Function<T, Boolean> function) {
+        return filterable.filter(function);
     }
 
     @Override
