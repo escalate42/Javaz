@@ -37,6 +37,11 @@ public class Some<T> extends OptionImpl<T> {
     }
 
     @Override
+    public Option<T> filter(Function<T, Boolean> predicate) {
+        return predicate.apply(this.value) ? this : OptionImpl.<T>none();
+    }
+
+    @Override
     public void foreach(Function<T, Void> function) {
         function.apply(this.value);
     }
