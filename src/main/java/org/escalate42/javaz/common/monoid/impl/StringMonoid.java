@@ -12,6 +12,8 @@ public class StringMonoid implements Monoid<String, StringMonoid> {
     private StringMonoid(String value) {
         this.value = value;
     }
+    public static StringMonoid mempty() { return wrap(""); }
+    public static StringMonoid wrap(String s) { return new StringMonoid(s); }
     @Override
     public StringMonoid mappend(StringMonoid another) {
         return Ops.stringMonoid.wrap(this.value() + another.value());
@@ -21,12 +23,16 @@ public class StringMonoid implements Monoid<String, StringMonoid> {
         return this.value;
     }
     @Override
+    public MonoidOps<String, StringMonoid> ops() {
+        return Ops.stringMonoid;
+    }
+    @Override
     public String toString() {
         return value;
     }
 
     public static class Ops implements MonoidOps<String, StringMonoid> {
-        public static final MonoidOps<String, StringMonoid> stringMonoid = new Ops();
+        public static final Ops stringMonoid = new Ops();
         private Ops() {}
         @Override
         public StringMonoid mempty() { return wrap(""); }
