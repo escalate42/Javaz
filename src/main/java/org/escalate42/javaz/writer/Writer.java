@@ -20,14 +20,22 @@ public class Writer<T, MT extends Monoid<T, MT>, A> extends WriterT<T, MT, A, Id
     public Id<Tuple2<A, T>> run() {
         return (Id<Tuple2<A, T>>) super.run();
     }
+    public Tuple2<A, T> runWriter() {
+        return ((Id<Tuple2<A, T>>) super.run()).value;
+    }
     @Override
     public Id<T> exec() {
         return (Id<T>)super.exec();
     }
+    public T execWriter() {
+        return ((Id<T>)super.exec()).value;
+    }
+    @Override
     public Writer<T, MT, A> tell(final T t) {
         final WriterT<T, MT, A, Id<?>> wt = super.tell(t);
         return writer(((Id<A>)wt.body).value, wt.context);
     }
+    @Override
     public <U> Writer<T, MT, U> fmap(final Function<A, U> function) {
         final WriterT<T, MT, U, Id<?>> wt = super.fmap(function);
         return writer(((Id<U>)wt.body).value, wt.context);

@@ -88,7 +88,7 @@ public class OptionTest {
         final Option<String> result = OptionOps.id.yieldFor(
             some("1"), some("2"), some("3"),
             new Function3<String, String, String, String>() {
-                @Override public String apply3(String s, String s2, String s3) {
+                @Override public String apply(String s, String s2, String s3) {
                     return s + s2 + s3;
                 }
             }
