@@ -1,6 +1,5 @@
 package org.escalate42.javaz.option;
 
-import org.escalate42.javaz.common.function.Function;
 import org.junit.Test;
 import static org.escalate42.javaz.option.OptionImpl.*;
 import static org.junit.Assert.assertEquals;
@@ -33,7 +32,8 @@ public class OptionTest {
 
     @Test
     public void maybeAMapTest() {
-        assertEquals(some("onetwo"), option("one").amap(OptionOps.id.pure(s -> s + "two")));
+        final OptionOps id = OptionOps.id;
+        assertEquals(some("onetwo"), option("one").amap(id.pure(s -> s + "two")));
     }
 
     @Test
@@ -45,9 +45,8 @@ public class OptionTest {
     @Test
     public void maybeOpsTest() {
         final OptionOps id = OptionOps.id;
-        final Option<Function<String, String>> appF = id.pure(s -> s + "two");
         assertEquals(some("onetwo"), id.fmap(option("one"), s -> s + "two"));
-        assertEquals(some("onetwo"), id.amap(option("one"), appF));
+        assertEquals(some("onetwo"), id.amap(option("one"), id.pure(s -> s + "two")));
         assertEquals(some("onetwo"), id.mmap(option("one"), s -> some(s + "two")));
     }
 
