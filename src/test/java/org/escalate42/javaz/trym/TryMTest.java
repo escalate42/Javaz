@@ -33,9 +33,9 @@ public class TryMTest {
             @Override public String apply(String s) throws Exception { throw tfail; }
         };
         assertEquals(success("successf"), successfull.apply(null).fmap(function));
-        assertEquals(fail(tfail), successfull.apply(null).fmap(tryFunction));
+        assertEquals(fail(tfail), successfull.apply(null).fmapT(tryFunction));
         assertEquals(fail(fail), failure.apply(null).fmap(function));
-        assertEquals(fail(fail), failure.apply(null).fmap(tryFunction));
+        assertEquals(fail(fail), failure.apply(null).fmapT(tryFunction));
     }
 
     @Test
@@ -52,13 +52,13 @@ public class TryMTest {
         final TryM<TryFunction<String, String>> tfas = success(tryFunction);
         final TryM<TryFunction<String, String>> tfaf = fail(tfail);
         assertEquals(success("successf"), successfull.apply(null).amap(fas));
-        assertEquals(fail(tfail), successfull.apply(null).amap(tfas));
+        assertEquals(fail(tfail), successfull.apply(null).amapT(tfas));
         assertEquals(fail(tfail), successfull.apply(null).amap(faf));
-        assertEquals(fail(tfail), successfull.apply(null).amap(tfaf));
+        assertEquals(fail(tfail), successfull.apply(null).amapT(tfaf));
         assertEquals(fail(fail), failure.apply(null).amap(fas));
-        assertEquals(fail(fail), failure.apply(null).amap(tfas));
+        assertEquals(fail(fail), failure.apply(null).amapT(tfas));
         assertEquals(fail(tfail), failure.apply(null).amap(faf));
-        assertEquals(fail(tfail), failure.apply(null).amap(tfaf));
+        assertEquals(fail(tfail), failure.apply(null).amapT(tfaf));
     }
 
     @Test
@@ -75,9 +75,9 @@ public class TryMTest {
         };
         assertEquals(success("successf"), successfull.apply(null).mmap(fs));
         assertEquals(fail(tfail), successfull.apply(null).mmap(ff));
-        assertEquals(fail(tfail), successfull.apply(null).mmap(tft));
+        assertEquals(fail(tfail), successfull.apply(null).mmapT(tft));
         assertEquals(fail(fail), failure.apply(null).mmap(fs));
         assertEquals(fail(fail), failure.apply(null).mmap(ff));
-        assertEquals(fail(fail), failure.apply(null).mmap(tft));
+        assertEquals(fail(fail), failure.apply(null).mmapT(tft));
     }
 }

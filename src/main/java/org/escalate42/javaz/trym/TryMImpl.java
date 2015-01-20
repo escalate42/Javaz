@@ -51,11 +51,11 @@ public abstract class TryMImpl<T> implements Serializable, TryM<T> {
         return result;
     }
 
-    public abstract <U> TryM<U> fmap(TryFunction<T, U> function);
+    public abstract <U> TryM<U> fmapT(TryFunction<T, U> function);
 
-    public <U> TryM<U> amap(TryM<TryFunction<T, U>> applicativeFunction) {
-        final TryM<TryM<U>> mapped = applicativeFunction.fmap(new TryFunction<TryFunction<T, U>, TryM<U>>() {
-            @Override public TryM<U> apply(TryFunction<T, U> tuf) { return fmap(tuf); }
+    public <U> TryM<U> amapT(TryM<TryFunction<T, U>> applicativeFunction) {
+        final TryM<TryM<U>> mapped = applicativeFunction.fmapT(new TryFunction<TryFunction<T, U>, TryM<U>>() {
+            @Override public TryM<U> apply(TryFunction<T, U> tuf) { return fmapT(tuf); }
         });
         final TryM<U> result;
         if (mapped.isFailure()) { result = fail(mapped.throwable()); }
@@ -63,8 +63,8 @@ public abstract class TryMImpl<T> implements Serializable, TryM<T> {
         return result;
     }
 
-    public <U> TryM<U> mmap(TryFunction<T, TryM<U>> function) {
-        final TryM<TryM<U>> mapped = fmap(function);
+    public <U> TryM<U> mmapT(TryFunction<T, TryM<U>> function) {
+        final TryM<TryM<U>> mapped = fmapT(function);
         final TryM<U> result;
         if (mapped.isFailure()) { result = fail(mapped.throwable()); }
         else { result = mapped.value(); }
