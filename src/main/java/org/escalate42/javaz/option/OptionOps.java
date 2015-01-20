@@ -72,7 +72,7 @@ public final class OptionOps implements MonadOps<Option<?>>, FilterableOps<Optio
     public <U, A1, A2, A3> Option<U> yieldFor(Option<A1> a1Option, Option<A2> a2Option, Option<A3> a3Option, Function3<A1, A2, A3, U> function3) {
         final Option<U> result;
         if (a1Option.isDefined()) {
-            result = yieldFor(a2Option, a3Option, carry(a1Option.get(), function3));
+            result = yieldFor(a2Option, a3Option, function3.carry(a1Option.get()));
         } else {
             result = OptionImpl.none();
         }
@@ -82,7 +82,7 @@ public final class OptionOps implements MonadOps<Option<?>>, FilterableOps<Optio
     public <U, A1, A2, A3, A4> Option<U> yieldFor(Option<A1> a1Option, Option<A2> a2Option, Option<A3> a3Option, Option<A4> a4Option, Function4<A1, A2, A3, A4, U> function4) {
         final Option<U> result;
         if (a1Option.isDefined()) {
-            result = yieldFor(a2Option, a3Option, a4Option, carry(a1Option.get(), function4));
+            result = yieldFor(a2Option, a3Option, a4Option, function4.carry(a1Option.get()));
         } else {
             result = OptionImpl.none();
         }

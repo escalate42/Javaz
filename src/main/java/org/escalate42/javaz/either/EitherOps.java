@@ -77,7 +77,7 @@ public final class EitherOps implements MonadOps<Either<?, ?>> {
     public <L, U, A1, A2, A3> Either<L, U> yieldFor(Either<L, A1> a1Either, Either<L, A2> a2Either, Either<L, A3> a3Either, Function3<A1, A2, A3, U> function3) {
         final Either<L, U> result;
         if (a1Either.isRight()) {
-            result = yieldFor(a2Either, a3Either, carry(a1Either.right(), function3));
+            result = yieldFor(a2Either, a3Either, function3.carry(a1Either.right()));
         } else {
             result = EitherImpl.left(a1Either.left());
         }
@@ -87,7 +87,7 @@ public final class EitherOps implements MonadOps<Either<?, ?>> {
     public <L, U, A1, A2, A3, A4> Either<L, U> yieldFor(Either<L, A1> a1Either, Either<L, A2> a2Either, Either<L, A3> a3Either, Either<L, A4> a4Either, Function4<A1, A2, A3, A4, U> function4) {
         final Either<L, U> result;
         if (a1Either.isRight()) {
-            result = yieldFor(a2Either, a3Either, a4Either, carry(a1Either.right(), function4));
+            result = yieldFor(a2Either, a3Either, a4Either, function4.carry(a1Either.right()));
         } else {
             result = EitherImpl.left(a1Either.left());
         }
