@@ -14,9 +14,9 @@ public interface TryM<T> extends Monad<T, TryM<?>> {
     public <U> TryM<U> fmap(Function<T, U> function);
     public <U, MM extends Applicative<Function<T, U>, TryM<?>>> TryM<U> amap(MM applicativeFunction);
     public <U, MM extends Monad<U, TryM<?>>> TryM<U> mmap(Function<T, MM> function);
-    public <U> TryM<U> fmap(TryFunction<T, U> function);
-    public <U> TryM<U> amap(TryM<TryFunction<T, U>> applicativeFunction);
-    public <U> TryM<U> mmap(TryFunction<T, TryM<U>> function);
+    public <U> TryM<U> fmapT(TryFunction<T, U> function);
+    public <U> TryM<U> amapT(TryM<TryFunction<T, U>> applicativeFunction);
+    public <U> TryM<U> mmapT(TryFunction<T, TryM<U>> function);
     public boolean isSuccess();
     public boolean isFailure();
     public T value();

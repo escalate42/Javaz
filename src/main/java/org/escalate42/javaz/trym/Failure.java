@@ -26,7 +26,7 @@ public class Failure<T> extends TryMImpl<T> {
     }
 
     @Override
-    public <U> TryM<U> fmap(TryFunction<T, U> function) { return fail(this.throwable); }
+    public <U> TryM<U> fmapT(TryFunction<T, U> function) { return fail(this.throwable); }
 
     @Override
     public boolean isSuccess() { return false; }
