@@ -11,7 +11,7 @@ public final class Try<A, B> implements Function<A, TryM<B>> {
 
     public final TryFunction<A, B> function;
 
-    public static <AA, BB> Try<AA, BB> tryF(TryFunction<AA, BB> function) { return new Try<AA, BB>(function); }
+    public static <AA, BB> Try<AA, BB> tryF(TryFunction<AA, BB> function) { return new Try<>(function); }
 
     public Try(TryFunction<A, B> function) {
         if (function == null) { throw new IllegalArgumentException("Function for Try<A, B> can not be null!"); }

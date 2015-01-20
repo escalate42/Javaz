@@ -10,7 +10,7 @@ public class None<T> extends OptionImpl<T> {
 
     public None() {}
 
-    public static <U> None<U> none() { return new None<U>(); }
+    public static <U> None<U> none() { return new None<>(); }
 
     @Override
     public boolean isDefined() { return false; }

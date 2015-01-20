@@ -28,11 +28,7 @@ public class WriterT<T, MT extends Monoid<T, MT>, A, MA extends Monad<?, MA>> {
         });
     }
     public Monad<T, MA> exec() {
-        return (Monad<T, MA>)this.body.fmap(new Function<A, T>() {
-            @Override public T apply(A a) {
-                return context.value();
-            }
-        });
+        return (Monad<T, MA>)this.body.fmap(a -> context.value());
     }
     public WriterT<T, MT, A, MA> tell(final T t) {
         return writerT(this.body, this.context.mappend(this.context.ops().wrap(t)));

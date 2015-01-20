@@ -16,7 +16,7 @@ public class Failure<T> extends TryMImpl<T> {
         this.throwable = throwable;
     }
 
-    public static <U> Failure<U> fail(Throwable throwable) { return new Failure<U>(throwable); }
+    public static <U> Failure<U> fail(Throwable throwable) { return new Failure<>(throwable); }
 
     @Override
     public <U> TryM<U> fmap(Function<T, U> function) { return fail(this.throwable); }

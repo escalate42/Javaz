@@ -15,7 +15,7 @@ public class Some<T> extends OptionImpl<T> {
         this.value = value;
     }
 
-    public static <U> Some<U> some(U value) { return new Some<U>(value); }
+    public static <U> Some<U> some(U value) { return new Some<>(value); }
 
     @Override
     public boolean isDefined() { return true; }

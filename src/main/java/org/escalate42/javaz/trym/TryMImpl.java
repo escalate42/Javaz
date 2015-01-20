@@ -55,7 +55,10 @@ public abstract class TryMImpl<T> implements Serializable, TryM<T> {
 
     public <U> TryM<U> amapT(TryM<TryFunction<T, U>> applicativeFunction) {
         final TryM<TryM<U>> mapped = applicativeFunction.fmapT(new TryFunction<TryFunction<T, U>, TryM<U>>() {
-            @Override public TryM<U> apply(TryFunction<T, U> tuf) { return fmapT(tuf); }
+            @Override
+            public TryM<U> apply(TryFunction<T, U> tuf) {
+                return fmapT(tuf);
+            }
         });
         final TryM<U> result;
         if (mapped.isFailure()) { result = fail(mapped.throwable()); }
@@ -80,7 +83,7 @@ public abstract class TryMImpl<T> implements Serializable, TryM<T> {
     public abstract <U> U fold(Function<Throwable, U> ifFailure, Function<T, U> ifSuccess);
     public <U> U fold(final U ifFailure, Function<T, U> ifSuccess) {
         return fold(
-                new Function<Throwable, U>() { @Override public U apply(Throwable throwable) { return ifFailure; }},
+                (Function<Throwable, U>) throwable -> ifFailure,
                 ifSuccess
         );
     }

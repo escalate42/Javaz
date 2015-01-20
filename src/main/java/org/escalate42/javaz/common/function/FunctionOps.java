@@ -6,6 +6,6 @@ package org.escalate42.javaz.common.function;
  */
 public class FunctionOps {
     public static <A, B> TryFunction<A, B> asTf(final Function<A, B> function) {
-        return new TryFunction<A, B>() { @Override public B apply(A a) throws Throwable { return function.apply(a); } };
+        return function::apply;
     }
 }

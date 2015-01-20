@@ -3,7 +3,6 @@ package org.escalate42.javaz.option;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.monad.Monad;
-import org.escalate42.javaz.common.monad.MonadOps;
 
 import java.io.Serializable;
 

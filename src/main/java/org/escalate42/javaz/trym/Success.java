@@ -17,7 +17,7 @@ public class Success<T> extends TryMImpl<T> {
         this.value = value;
     }
 
-    public static <U> Success<U> success(U value) { return new Success<U>(value); }
+    public static <U> Success<U> success(U value) { return new Success<>(value); }
 
     @Override
     public <U> TryM<U> fmap(Function<T, U> function) { return fmapT(FunctionOps.asTf(function)); }

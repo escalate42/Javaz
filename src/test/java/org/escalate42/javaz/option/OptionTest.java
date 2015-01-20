@@ -27,12 +27,7 @@ public class OptionTest {
 
     @Test
     public void maybeFMapTest() {
-        final Function<String, String> function = new Function<String, String>() {
-            @Override
-            public String apply(final String s) {
-                return s + "two";
-            }
-        };
+        final Function<String, String> function = s -> s + "two";
         assertEquals(some("onetwo"), option("one").fmap(function));
         //noinspection AssertEqualsBetweenInconvertibleTypes
         assertEquals(none(), option((String) null).fmap(function));
@@ -40,24 +35,14 @@ public class OptionTest {
 
     @Test
     public void maybeAMapTest() {
-        final Function<String, String> function = new Function<String, String>() {
-            @Override
-            public String apply(final String s) {
-                return s + "two";
-            }
-        };
+        final Function<String, String> function = s -> s + "two";
         final Option<Function<String, String>> appF = OptionOps.id.pure(function);
         assertEquals(some("onetwo"), option("one").amap(appF));
     }
 
     @Test
     public void maybeMMapTest() {
-        final Function<String, Option<String>> function = new Function<String, Option<String>>() {
-            @Override
-            public Option<String> apply(final String s) {
-                return some(s + "two");
-            }
-        };
+        final Function<String, Option<String>> function = s -> some(s + "two");
         assertEquals(some("onetwo"), option("one").mmap(function));
         assertEquals(none(), option(null));
     }
@@ -65,18 +50,8 @@ public class OptionTest {
     @Test
     public void maybeOpsTest() {
         final OptionOps id = OptionOps.id;
-        final Function<String, String> function = new Function<String, String>() {
-            @Override
-            public String apply(final String s) {
-                return s + "two";
-            }
-        };
-        final Function<String, Option<String>> fm = new Function<String, Option<String>>() {
-            @Override
-            public Option<String> apply(final String s) {
-                return some(s + "two");
-            }
-        };
+        final Function<String, String> function = s -> s + "two";
+        final Function<String, Option<String>> fm = s -> some(s + "two");
         final Option<Function<String, String>> appF = id.pure(function);
         assertEquals(some("onetwo"), id.fmap(option("one"), function));
         assertEquals(some("onetwo"), id.amap(option("one"), appF));
@@ -85,14 +60,7 @@ public class OptionTest {
 
     @Test
     public void yieldForTest() {
-        final Option<String> result = OptionOps.id.yieldFor(
-            some("1"), some("2"), some("3"),
-            new Function3<String, String, String, String>() {
-                @Override public String apply(String s, String s2, String s3) {
-                    return s + s2 + s3;
-                }
-            }
-        );
+        final Option<String> result = OptionOps.id.yieldFor(some("1"), some("2"), some("3"), (s1, s2, s3) -> s1 + s2 + s3);
         assertEquals(some("123"), result);
     }
 }

@@ -15,7 +15,7 @@ public class ListMonoid<T> implements Monoid<List<T>, ListMonoid<T>> {
     public ListMonoid(List<T> value) {
         this.value = value;
     }
-    public static <T> ListMonoid<T> mempty() { return wrap(new ArrayList<T>()); }
+    public static <T> ListMonoid<T> mempty() { return wrap(new ArrayList<>()); }
     public static <T> ListMonoid<T> wrap(List<T> ts) { return new ListMonoid<>(ts); }
     public static <T> ListMonoid<T> wrapOne(final T ts) { return new ListMonoid<>( new ArrayList<T>(){{ add(ts); }} ); }
     public static <T> List<T> asList(final T ts) { return new ArrayList<T>(){{ add(ts); }}; }
@@ -40,7 +40,7 @@ public class ListMonoid<T> implements Monoid<List<T>, ListMonoid<T>> {
     public static class Ops<T> implements MonoidOps<List<T>, ListMonoid<T>> {
         public static <T> Ops<T> listMonoid() { return new Ops<>(); }
         @Override
-        public ListMonoid<T> mempty() { return wrap(new ArrayList<T>()); }
+        public ListMonoid<T> mempty() { return wrap(new ArrayList<>()); }
         @Override
         public ListMonoid<T> wrap(List<T> ts) { return new ListMonoid<>(ts); }
     }
