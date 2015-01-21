@@ -6,5 +6,5 @@ package org.escalate42.javaz.common.monoid;
  */
 public interface MonoidOps<T, M extends Monoid<?, M>> {
     public M mempty();
-    public M wrap(T t);
+    public Monoid<T, M> wrap(T t);
 }

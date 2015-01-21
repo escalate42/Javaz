@@ -9,11 +9,12 @@ import org.escalate42.javaz.id.Id;
  * Created by vdubs
  * on 11/6/14.
  */
-public class Writer<T, MT extends Monoid<T, MT>, A> extends WriterT<T, MT, A, Id<?>> {
-    private Writer(A body, MT context) {
+@SuppressWarnings("unchecked")
+public class Writer<T, MT extends Monoid<?, MT>, A> extends WriterT<T, MT, A, Id<?>> {
+    private Writer(A body, Monoid<T, MT> context) {
         super(Id.id(body), context);
     }
-    public static <T, MT extends Monoid<T, MT>, A> Writer<T, MT, A> writer(A body, MT context) {
+    public static <T, MT extends Monoid<?, MT>, A> Writer<T, MT, A> writer(A body, Monoid<T, MT> context) {
         return new Writer<>(body, context);
     }
     @Override
@@ -36,8 +37,8 @@ public class Writer<T, MT extends Monoid<T, MT>, A> extends WriterT<T, MT, A, Id
         return writer(((Id<A>)wt.body).value, wt.context);
     }
     @Override
-    public <U> Writer<T, MT, U> fmap(final Function<A, U> function) {
-        final WriterT<T, MT, U, Id<?>> wt = super.fmap(function);
+    public <U> Writer<T, MT, U> map(final Function<A, U> function) {
+        final WriterT<T, MT, U, Id<?>> wt = super.map(function);
         return writer(((Id<U>)wt.body).value, wt.context);
     }
     @Override

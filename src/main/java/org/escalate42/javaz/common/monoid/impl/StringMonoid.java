@@ -15,7 +15,7 @@ public class StringMonoid implements Monoid<String, StringMonoid> {
     public static StringMonoid mempty() { return wrap(""); }
     public static StringMonoid wrap(String s) { return new StringMonoid(s); }
     @Override
-    public StringMonoid mappend(StringMonoid another) {
+    public StringMonoid mappend(Monoid<String, StringMonoid> another) {
         return Ops.stringMonoid.wrap(this.value() + another.value());
     }
     @Override
