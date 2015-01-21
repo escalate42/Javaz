@@ -1,6 +1,8 @@
 package org.escalate42.javaz.option;
 
 import org.escalate42.javaz.common.function.Function;
+import org.escalate42.javaz.either.Either;
+import org.escalate42.javaz.either.EitherImpl;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -73,5 +75,24 @@ public class OptionTest {
                 (s1, s2, s3) -> s1 + s2 + s3
         );
         assertEquals(some("123"), result);
+    }
+
+    @Test
+    public void optionTTest() {
+        final OptionT<String, Either<?, ?>> rightSomeT = OptionT.optionT(
+                EitherImpl.<String, Option<String>>right(OptionImpl.some("right"))
+        );
+        final OptionT<String, Either<?, ?>> rightNoneT = OptionT.optionT(
+                EitherImpl.<String, Option<String>>right(OptionImpl.none())
+        );
+        final OptionT<String, Either<?, ?>> leftOptionT = OptionT.optionT(
+                EitherImpl.<String, Option<String>>left("left")
+        );
+        final Either<String, String> eitherSomeR = rightSomeT.map(String::toUpperCase).get();
+        final Either<String, Option<String>> eitherNoneR = rightNoneT.map(String::toUpperCase).run();
+        final Either<String, String> eitherL = leftOptionT.map(String::toUpperCase).get();
+        assertEquals(EitherImpl.<String, String>right("RIGHT"), eitherSomeR);
+        assertEquals(EitherImpl.<String, Option<String>>right(OptionImpl.<String>none()), eitherNoneR);
+        assertEquals(EitherImpl.<String, String>left("left"), eitherL);
     }
 }

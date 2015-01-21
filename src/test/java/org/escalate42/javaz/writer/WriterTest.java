@@ -23,7 +23,10 @@ public class WriterTest {
     @Test
     public void writerTest() {
         final Writer<String, StringMonoid, String> writer = Writer.writer("String body", StringMonoid.mempty());
-        final Tuple2<List<String>, String> expected = Tuple2.t(new ArrayList<String>() {{add("STRING"); add("BODY");}}, "toUpperCase, splitting by whitespace");
+        final Tuple2<List<String>, String> expected = Tuple2.t(
+                new ArrayList<String>() {{add("STRING"); add("BODY");}},
+                "toUpperCase, splitting by whitespace"
+        );
         final Tuple2<List<String>, String> tuple = writer
             .tell("toUpperCase, ")
             .map(String::toUpperCase)
