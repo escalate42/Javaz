@@ -19,14 +19,14 @@ public class Failure<T> extends TryMImpl<T> {
     public static <U> Failure<U> fail(Throwable throwable) { return new Failure<>(throwable); }
 
     @Override
-    public <U> TryM<U> fmap(Function<T, U> function) { return fail(this.throwable); }
+    public <U> TryM<U> map(Function<T, U> function) { return fail(this.throwable); }
 
     @Override
     public void foreach(Function<T, Void> function) {
     }
 
     @Override
-    public <U> TryM<U> fmapT(TryFunction<T, U> function) { return fail(this.throwable); }
+    public <U> TryM<U> mapT(TryFunction<T, U> function) { return fail(this.throwable); }
 
     @Override
     public boolean isSuccess() { return false; }

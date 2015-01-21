@@ -8,5 +8,5 @@ import org.escalate42.javaz.common.function.Function;
  * on 8/21/14.
  */
 public interface MonadOps<M extends Monad<?, M>> extends ApplicativeOps<M> {
-    public <T, U, MM extends Monad<U, M>> M mmap(M monad, Function<T, MM> function);
+    public <T, U, MM extends Monad<U, M>> M flatMap(M monad, Function<T, MM> function);
 }

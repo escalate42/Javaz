@@ -17,7 +17,7 @@ public class IdTest {
     @Test
     public void fmapTest() {
         final Function<String, String> function = s -> s + "two";
-        assertEquals(id("onetwo"), id("one").fmap(function));
+        assertEquals(id("onetwo"), id("one").map(function));
     }
 
     @Test
@@ -30,6 +30,6 @@ public class IdTest {
     @Test
     public void mmapTest() {
         final Function<String, Id<String>> function = s -> id.pure(s + "two");
-        assertEquals(id("onetwo"), id("one").mmap(function));
+        assertEquals(id("onetwo"), id("one").flatMap(function));
     }
 }

@@ -9,8 +9,6 @@ import org.escalate42.javaz.common.functor.Functor;
 import org.escalate42.javaz.common.monad.Monad;
 import org.escalate42.javaz.common.monad.MonadOps;
 
-import static org.escalate42.javaz.common.function.extra.carried.Carry.*;
-
 /**
  * Created by vdubs
  * on 8/21/14.
@@ -33,11 +31,11 @@ public final class OptionOps implements MonadOps<Option<?>>, FilterableOps<Optio
     }
 
     @Override
-    public <T, U, MM extends Functor<T, Option<?>>> Option<U> fmap(MM functor, Function<T, U> function) {
+    public <T, U, MM extends Functor<T, Option<?>>> Option<U> map(MM functor, Function<T, U> function) {
         //not safe, but the easiest way to make pretty API
         //noinspection unchecked
         final Option<T> option = (Option<T>) functor;
-        return option.fmap(function);
+        return option.map(function);
     }
 
     @Override
@@ -53,10 +51,10 @@ public final class OptionOps implements MonadOps<Option<?>>, FilterableOps<Optio
     }
 
     @Override
-    public <T, U, MM extends Monad<U, Option<?>>> Option<U> mmap(Option<?> monad, Function<T, MM> function) {
+    public <T, U, MM extends Monad<U, Option<?>>> Option<U> flatMap(Option<?> monad, Function<T, MM> function) {
         //noinspection unchecked
         final Option<T> option = (Option<T>) monad;
-        return option.mmap(function);
+        return option.flatMap(function);
     }
 
     public <U, A1, A2> Option<U> yieldFor(Option<A1> a1Option, Option<A2> a2Option, Function2<A1, A2, U> function2) {

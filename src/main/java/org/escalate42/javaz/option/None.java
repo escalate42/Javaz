@@ -27,7 +27,7 @@ public class None<T> extends OptionImpl<T> {
     public Option<T> or(Option<T> elseValue) { return elseValue; }
 
     @Override
-    public <U> Option<U> fmap(Function<T, U> function) { return none(); }
+    public <U> Option<U> map(Function<T, U> function) { return none(); }
 
     @Override
     public Option<T> filter(Function<T, Boolean> predicate) { return none(); }

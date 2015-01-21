@@ -18,8 +18,8 @@ public final class IdOps implements MonadOps<Id<?>> {
     public static final IdOps id = new IdOps();
 
     @Override
-    public <T, U, MM extends Functor<T, Id<?>>> Id<U> fmap(MM functor, Function<T, U> function) {
-        return (Id<U>)functor.fmap(function);
+    public <T, U, MM extends Functor<T, Id<?>>> Id<U> map(MM functor, Function<T, U> function) {
+        return (Id<U>)functor.map(function);
     }
 
     @Override
@@ -36,7 +36,7 @@ public final class IdOps implements MonadOps<Id<?>> {
     }
 
     @Override
-    public <T, U, MM extends Monad<U, Id<?>>> Id<U> mmap(Id<?> monad, Function<T, MM> function) {
-        return ((Id<T>)monad).mmap(function);
+    public <T, U, MM extends Monad<U, Id<?>>> Id<U> flatMap(Id<?> monad, Function<T, MM> function) {
+        return ((Id<T>)monad).flatMap(function);
     }
 }

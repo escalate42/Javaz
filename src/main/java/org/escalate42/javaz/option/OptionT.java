@@ -21,17 +21,19 @@ public class OptionT<T, M extends Monad<?, M>> {
     }
     public <U> OptionT<U, M> fmap(final Function<T, U> function) {
         return optionT(
-            (Monad<Option<U>, M>) this.body.fmap(new Function<Option<T>, Option<U>>() {
-                @Override public Option<U> apply(Option<T> tOption) {
-                    return tOption.fmap(function);
+            (Monad<Option<U>, M>) this.body.map(new Function<Option<T>, Option<U>>() {
+                @Override
+                public Option<U> apply(Option<T> tOption) {
+                    return tOption.map(function);
                 }
             })
         );
     }
     public <U> OptionT<U, M> amap(final Option<Function<T, U>> function) {
         return optionT(
-            (Monad<Option<U>, M>) this.body.fmap(new Function<Option<T>, Option<U>>() {
-                @Override public Option<U> apply(Option<T> tOption) {
+            (Monad<Option<U>, M>) this.body.map(new Function<Option<T>, Option<U>>() {
+                @Override
+                public Option<U> apply(Option<T> tOption) {
                     return tOption.amap(function);
                 }
             })
@@ -39,60 +41,68 @@ public class OptionT<T, M extends Monad<?, M>> {
     }
     public <U> OptionT<U, M> mmap(final Function<T, Option<U>> function) {
         return optionT(
-            (Monad<Option<U>, M>) this.body.fmap(new Function<Option<T>, Option<U>>() {
-                @Override public Option<U> apply(Option<T> tOption) {
-                    return tOption.mmap(function);
+            (Monad<Option<U>, M>) this.body.map(new Function<Option<T>, Option<U>>() {
+                @Override
+                public Option<U> apply(Option<T> tOption) {
+                    return tOption.flatMap(function);
                 }
             })
         );
     }
     public Monad<Boolean, M> isDefined() {
-        return (Monad<Boolean, M>)this.body.fmap(new Function<Option<T>, Boolean>() {
-            @Override public Boolean apply(Option<T> tOption) {
+        return (Monad<Boolean, M>)this.body.map(new Function<Option<T>, Boolean>() {
+            @Override
+            public Boolean apply(Option<T> tOption) {
                 return tOption.isDefined();
             }
         });
     }
     public OptionT<T, M> filter(final Function<T, Boolean> function) {
         return optionT(
-            (Monad<Option<T>, M>) this.body.fmap(new Function<Option<T>, Option<T>>() {
-                @Override public Option<T> apply(Option<T> tOption) {
+            (Monad<Option<T>, M>) this.body.map(new Function<Option<T>, Option<T>>() {
+                @Override
+                public Option<T> apply(Option<T> tOption) {
                     return tOption.filter(function);
                 }
             })
         );
     }
     public Monad<T, M> get() {
-        return (Monad<T, M>)this.body.fmap(new Function<Option<T>, T>() {
-            @Override public T apply(Option<T> tOption) {
+        return (Monad<T, M>)this.body.map(new Function<Option<T>, T>() {
+            @Override
+            public T apply(Option<T> tOption) {
                 return tOption.get();
             }
         });
     }
     public Monad<T, M> orNull() {
-        return (Monad<T, M>)this.body.fmap(new Function<Option<T>, T>() {
-            @Override public T apply(Option<T> tOption) {
+        return (Monad<T, M>)this.body.map(new Function<Option<T>, T>() {
+            @Override
+            public T apply(Option<T> tOption) {
                 return tOption.orNull();
             }
         });
     }
     public Monad<T, M> orElse(final T elseValue) {
-        return (Monad<T, M>)this.body.fmap(new Function<Option<T>, T>() {
-            @Override public T apply(Option<T> tOption) {
+        return (Monad<T, M>)this.body.map(new Function<Option<T>, T>() {
+            @Override
+            public T apply(Option<T> tOption) {
                 return tOption.orElse(elseValue);
             }
         });
     }
     public Monad<Option<T>, M> or(final Option<T> elseValue) {
-        return (Monad<Option<T>, M>)this.body.fmap(new Function<Option<T>, Option<T>>() {
-            @Override public Option<T> apply(Option<T> tOption) {
+        return (Monad<Option<T>, M>)this.body.map(new Function<Option<T>, Option<T>>() {
+            @Override
+            public Option<T> apply(Option<T> tOption) {
                 return tOption.or(elseValue);
             }
         });
     }
     public <U> Monad<U, M> fold(final U ifNone, final Function<T, U> function) {
-        return (Monad<U, M>)this.body.fmap(new Function<Option<T>, U>() {
-            @Override public U apply(Option<T> tOption) {
+        return (Monad<U, M>)this.body.map(new Function<Option<T>, U>() {
+            @Override
+            public U apply(Option<T> tOption) {
                 return tOption.fold(ifNone, function);
             }
         });

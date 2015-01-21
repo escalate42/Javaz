@@ -18,7 +18,7 @@ public abstract class EitherImpl<L, R> implements Serializable, Either<L, R> {
     public static <L, R> Either<L, R> right(R rightValue) { return Right.right(rightValue); }
 
     @Override
-    public abstract <U> Either<L, U> fmap(Function<R, U> function);
+    public abstract <U> Either<L, U> map(Function<R, U> function);
 
     @Override
     public <U> Either<L, U> pure(U value) { return right(value); }
@@ -26,8 +26,11 @@ public abstract class EitherImpl<L, R> implements Serializable, Either<L, R> {
     @Override
     public <U, MM extends Applicative<Function<R, U>, Either<?, ?>>> Either<L, U> amap(MM applicativeFunction) {
         //noinspection unchecked
-        final Either<L, Either<L, U>> mapped = (Either<L, Either<L, U>>)applicativeFunction.fmap(new Function<Function<R, U>, Either<L, U>>() {
-            @Override  public Either<L, U> apply(Function<R, U> ruf) { return fmap(ruf); }
+        final Either<L, Either<L, U>> mapped = (Either<L, Either<L, U>>)applicativeFunction.map(new Function<Function<R, U>, Either<L, U>>() {
+            @Override
+            public Either<L, U> apply(Function<R, U> ruf) {
+                return map(ruf);
+            }
         });
         final Either<L, U> result;
         if (mapped.isLeft()) { result = left(mapped.left()); }
@@ -36,9 +39,9 @@ public abstract class EitherImpl<L, R> implements Serializable, Either<L, R> {
     }
 
     @Override
-    public <U, MM extends Monad<U, Either<?, ?>>> Either<L, U> mmap(Function<R, MM> function) {
+    public <U, MM extends Monad<U, Either<?, ?>>> Either<L, U> flatMap(Function<R, MM> function) {
         //noinspection unchecked
-        final Either<L, Either<L, U>> mapped = (Either<L, Either<L, U>>)fmap(function);
+        final Either<L, Either<L, U>> mapped = (Either<L, Either<L, U>>) map(function);
         final Either<L, U> result;
         if (mapped.isLeft()) { result = left(mapped.left()); }
         else { result = mapped.right(); }
@@ -49,8 +52,11 @@ public abstract class EitherImpl<L, R> implements Serializable, Either<L, R> {
 
     public <U> Either<U, R> amapLeft(Either<?, Function<L, U>> applicativeFunction) {
         //noinspection unchecked
-        return applicativeFunction.fmap(new Function<Function<L, U>, Either<U, R>>() {
-            @Override public Either<U, R> apply(Function<L, U> luf) { return fmapLeft(luf); }
+        return applicativeFunction.map(new Function<Function<L, U>, Either<U, R>>() {
+            @Override
+            public Either<U, R> apply(Function<L, U> luf) {
+                return fmapLeft(luf);
+            }
         }).right();
     }
 

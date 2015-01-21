@@ -16,8 +16,8 @@ public class EitherTest {
     public void fmapTest() {
         final Function<String, String> function = s -> s + "two";
         final Either<String, String> left = left("one");
-        assertEquals(left("one"), left.fmap(function));
-        assertEquals(right("onetwo"), right("one").fmap(function));
+        assertEquals(left("one"), left.map(function));
+        assertEquals(right("onetwo"), right("one").map(function));
     }
 
     @Test
@@ -37,9 +37,9 @@ public class EitherTest {
         final Function<String, Either<String, String>> rightFunction = s -> right(s + "right");
         final Function<String, Either<String, String>> leftFunction = s -> left(s + "left");
         final Either<String, String> left = left("one");
-        assertEquals(left("one"), left.mmap(rightFunction));
-        assertEquals(left("one"), left.mmap(leftFunction));
-        assertEquals(right("oneright"), right("one").mmap(rightFunction));
-        assertEquals(left("oneleft"), right("one").mmap(leftFunction));
+        assertEquals(left("one"), left.flatMap(rightFunction));
+        assertEquals(left("one"), left.flatMap(leftFunction));
+        assertEquals(right("oneright"), right("one").flatMap(rightFunction));
+        assertEquals(left("oneleft"), right("one").flatMap(leftFunction));
     }
 }

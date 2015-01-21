@@ -24,10 +24,10 @@ public class TryMTest {
         final Function<String, String> function = s -> s + "f";
         final Exception tfail = new Exception("tfail");
         final TryFunction<String, String> tryFunction = s -> { throw tfail; };
-        assertEquals(success("successf"), successfull.apply(null).fmap(function));
-        assertEquals(fail(tfail), successfull.apply(null).fmapT(tryFunction));
-        assertEquals(fail(fail), failure.apply(null).fmap(function));
-        assertEquals(fail(fail), failure.apply(null).fmapT(tryFunction));
+        assertEquals(success("successf"), successfull.apply(null).map(function));
+        assertEquals(fail(tfail), successfull.apply(null).mapT(tryFunction));
+        assertEquals(fail(fail), failure.apply(null).map(function));
+        assertEquals(fail(fail), failure.apply(null).mapT(tryFunction));
     }
 
     @Test
@@ -55,11 +55,11 @@ public class TryMTest {
         final Function<String, TryM<String>> fs = s -> success(s + "f");
         final Function<String, TryM<String>> ff = s -> fail(tfail);
         final TryFunction<String, TryM<String>> tft = (s) -> { throw tfail; };
-        assertEquals(success("successf"), successfull.apply(null).mmap(fs));
-        assertEquals(fail(tfail), successfull.apply(null).mmap(ff));
-        assertEquals(fail(tfail), successfull.apply(null).mmapT(tft));
-        assertEquals(fail(fail), failure.apply(null).mmap(fs));
-        assertEquals(fail(fail), failure.apply(null).mmap(ff));
-        assertEquals(fail(fail), failure.apply(null).mmapT(tft));
+        assertEquals(success("successf"), successfull.apply(null).flatMap(fs));
+        assertEquals(fail(tfail), successfull.apply(null).flatMap(ff));
+        assertEquals(fail(tfail), successfull.apply(null).flatMapT(tft));
+        assertEquals(fail(fail), failure.apply(null).flatMap(fs));
+        assertEquals(fail(fail), failure.apply(null).flatMap(ff));
+        assertEquals(fail(fail), failure.apply(null).flatMapT(tft));
     }
 }

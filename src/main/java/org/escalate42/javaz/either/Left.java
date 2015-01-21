@@ -18,7 +18,7 @@ public class Left<L, R> extends EitherImpl<L, R> {
     public static <L, R> Left<L, R> left(L value) { return new Left<>(value); }
 
     @Override
-    public <U> Either<L, U> fmap(Function<R, U> function) { return left(this.leftValue); }
+    public <U> Either<L, U> map(Function<R, U> function) { return left(this.leftValue); }
 
     @Override
     public void foreach(Function<R, Void> function) {

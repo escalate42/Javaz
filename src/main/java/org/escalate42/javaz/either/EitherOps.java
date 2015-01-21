@@ -9,8 +9,6 @@ import org.escalate42.javaz.common.functor.Functor;
 import org.escalate42.javaz.common.monad.Monad;
 import org.escalate42.javaz.common.monad.MonadOps;
 
-import static org.escalate42.javaz.common.function.extra.carried.Carry.*;
-
 /**
  * Created by vdubs
  * on 8/21/14.
@@ -33,11 +31,11 @@ public final class EitherOps implements MonadOps<Either<?, ?>> {
     }
 
     @Override
-    public <T, U, MM extends Functor<T, Either<?, ?>>> Either<?, U> fmap(MM functor, Function<T, U> function) {
+    public <T, U, MM extends Functor<T, Either<?, ?>>> Either<?, U> map(MM functor, Function<T, U> function) {
         //not safe, but the easiest way to make pretty API
         //noinspection unchecked
         final Either<?, T> maybe = (Either<?, T>) functor;
-        return maybe.fmap(function);
+        return maybe.map(function);
     }
 
     @Override
@@ -46,10 +44,10 @@ public final class EitherOps implements MonadOps<Either<?, ?>> {
     }
 
     @Override
-    public <T, U, MM extends Monad<U, Either<?, ?>>> Either<?, U> mmap(Either<?, ?> monad, Function<T, MM> function) {
+    public <T, U, MM extends Monad<U, Either<?, ?>>> Either<?, U> flatMap(Either<?, ?> monad, Function<T, MM> function) {
         //noinspection unchecked
         final Either<?, T> maybe = (Either<?, T>) monad;
-        return maybe.mmap(function);
+        return maybe.flatMap(function);
     }
 
     public <L, R, U> Either<U, R> amapLeft(Either<L, R> app, Either<L, Function<L, U>> appF) {

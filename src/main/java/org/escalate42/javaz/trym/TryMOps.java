@@ -23,8 +23,8 @@ public final class TryMOps implements MonadOps<TryM<?>> {
     public static final TryMOps id = new TryMOps();
 
     @Override
-    public <T, U, MM extends Functor<T, TryM<?>>> TryM<U> fmap(MM functor, Function<T, U> function) {
-        return (TryM<U>)functor.fmap(function);
+    public <T, U, MM extends Functor<T, TryM<?>>> TryM<U> map(MM functor, Function<T, U> function) {
+        return (TryM<U>)functor.map(function);
     }
 
     @Override
@@ -41,8 +41,8 @@ public final class TryMOps implements MonadOps<TryM<?>> {
     }
 
     @Override
-    public <T, U, MM extends Monad<U, TryM<?>>> TryM<?> mmap(TryM<?> monad, Function<T, MM> function) {
-        return ((TryM<T>)monad).mmap(function);
+    public <T, U, MM extends Monad<U, TryM<?>>> TryM<?> flatMap(TryM<?> monad, Function<T, MM> function) {
+        return ((TryM<T>)monad).flatMap(function);
     }
 
     public <U, A1, A2> TryM<U> yieldFor(TryM<A1> a1TryM, TryM<A2> a2TryM, Function2<A1, A2, U> function2) {

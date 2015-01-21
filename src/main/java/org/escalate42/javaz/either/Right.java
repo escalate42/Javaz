@@ -19,7 +19,7 @@ public class Right<L, R> extends EitherImpl<L, R> {
     public static <L, R> Right<L, R> right(R value) { return new Right<>(value); }
 
     @Override
-    public <U> Either<L, U> fmap(Function<R, U> function) {
+    public <U> Either<L, U> map(Function<R, U> function) {
         return right(function.apply(this.rightValue));
     }
 

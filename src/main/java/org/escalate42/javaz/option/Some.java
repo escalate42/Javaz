@@ -32,7 +32,7 @@ public class Some<T> extends OptionImpl<T> {
     public OptionImpl<T> or(Option<T> elseValue) { return this; }
 
     @Override
-    public <U> OptionImpl<U> fmap(Function<T, U> function) {
+    public <U> OptionImpl<U> map(Function<T, U> function) {
         return some(function.apply(this.value));
     }
 

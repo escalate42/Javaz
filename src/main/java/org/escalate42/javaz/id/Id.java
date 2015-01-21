@@ -21,7 +21,7 @@ public final class Id<T> implements Monad<T, Id<?>> {
     public static <U> Id<U> id(U value) { return new Id<>(value); }
 
     @Override
-    public <U> Id<U> fmap(Function<T, U> function) {
+    public <U> Id<U> map(Function<T, U> function) {
         return id(function.apply(this.value));
     }
 
@@ -37,14 +37,17 @@ public final class Id<T> implements Monad<T, Id<?>> {
 
     @Override
     public <U, MM extends Applicative<Function<T, U>, Id<?>>> Id<U> amap(MM applicativeFunction) {
-        return (Id<U>)applicativeFunction.fmap(new Function<Function<T, U>, Id<U>>() {
-            @Override  public Id<U> apply(Function<T, U> tuf) { return fmap(tuf); }
+        return (Id<U>)applicativeFunction.map(new Function<Function<T, U>, Id<U>>() {
+            @Override
+            public Id<U> apply(Function<T, U> tuf) {
+                return map(tuf);
+            }
         }).value;
     }
 
     @Override
-    public <U, MM extends Monad<U, Id<?>>> Id<U> mmap(Function<T, MM> function) {
-        return (Id<U>)fmap(function).value;
+    public <U, MM extends Monad<U, Id<?>>> Id<U> flatMap(Function<T, MM> function) {
+        return (Id<U>) map(function).value;
     }
 
     @Override

@@ -20,7 +20,7 @@ public class Success<T> extends TryMImpl<T> {
     public static <U> Success<U> success(U value) { return new Success<>(value); }
 
     @Override
-    public <U> TryM<U> fmap(Function<T, U> function) { return fmapT(FunctionOps.asTf(function)); }
+    public <U> TryM<U> map(Function<T, U> function) { return mapT(FunctionOps.asTf(function)); }
 
     @Override
     public void foreach(Function<T, Void> function) {
@@ -28,7 +28,7 @@ public class Success<T> extends TryMImpl<T> {
     }
 
     @Override
-    public <U> TryM<U> fmapT(TryFunction<T, U> function)  { return TryMImpl.tryM(function, this.value); }
+    public <U> TryM<U> mapT(TryFunction<T, U> function)  { return TryMImpl.tryM(function, this.value); }
 
     @Override
     public boolean isSuccess() { return true; }

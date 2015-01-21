@@ -5,6 +5,7 @@ import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.monad.Monad;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * Created by vdubs
@@ -14,6 +15,9 @@ public abstract class OptionImpl<T> implements Serializable, Option<T> {
 
     private static final long serialVersionUID = 0;
 
+    public static <U> Option<U> fromOptional(final Optional<U> optional) {
+        return option(optional.orElse(null));
+    }
     public static <U> Option<U> option(final U value) {
         final Option<U> none = none();
         return value == null ? none : some(value);
@@ -22,7 +26,7 @@ public abstract class OptionImpl<T> implements Serializable, Option<T> {
     public static <U> Some<U> some(final U value) { return Some.some(value); }
 
     @Override
-    public abstract <U> Option<U> fmap(Function<T, U> function);
+    public abstract <U> Option<U> map(Function<T, U> function);
 
     @Override
     public abstract Option<T> filter(Function<T, Boolean> predicate);
@@ -33,15 +37,18 @@ public abstract class OptionImpl<T> implements Serializable, Option<T> {
     @Override
     public <U, MM extends Applicative<Function<T, U>, Option<?>>> Option<U> amap(MM applicativeFunction) {
         //noinspection unchecked
-        return (Option<U>)(applicativeFunction.fmap(new Function<Function<T, U>, Option<U>>() {
-            @Override  public Option<U> apply(Function<T, U> tuf) { return fmap(tuf); }
+        return (Option<U>)(applicativeFunction.map(new Function<Function<T, U>, Option<U>>() {
+            @Override
+            public Option<U> apply(Function<T, U> tuf) {
+                return map(tuf);
+            }
         }).get());
     }
 
     @Override
-    public <U, MM extends Monad<U, Option<?>>> Option<U> mmap(Function<T, MM> function) {
+    public <U, MM extends Monad<U, Option<?>>> Option<U> flatMap(Function<T, MM> function) {
         //noinspection unchecked
-        return (Option<U>)fmap(function).get();
+        return (Option<U>) map(function).get();
     }
 
     public abstract boolean isDefined();

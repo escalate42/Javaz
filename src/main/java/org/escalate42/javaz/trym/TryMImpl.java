@@ -27,37 +27,15 @@ public abstract class TryMImpl<T> implements Serializable, TryM<T> {
     public <U> TryM<U> pure(U value) { return success(value); }
 
     @Override
-    public abstract <U> TryM<U> fmap(Function<T, U> function);
+    public abstract <U> TryM<U> map(Function<T, U> function);
 
     @Override
     public <U, MM extends Applicative<Function<T, U>, TryM<?>>> TryM<U> amap(MM applicativeFunction) {
         //noinspection unchecked
-        final TryM<TryM<U>> mapped = (TryM<TryM<U>>)applicativeFunction.fmap(new Function<Function<T, U>, TryM<U>>() {
-            @Override public TryM<U> apply(Function<T, U> tuf) { return fmap(tuf); }
-        });
-        final TryM<U> result;
-        if (mapped.isFailure()) { result = fail(mapped.throwable()); }
-        else { result = mapped.value(); }
-        return result;
-    }
-
-    @Override
-    public <U, MM extends Monad<U, TryM<?>>> TryM<U> mmap(Function<T, MM> function) {
-        //noinspection unchecked
-        final TryM<TryM<U>> mapped = (TryM<TryM<U>>)fmap(function);
-        final TryM<U> result;
-        if (mapped.isFailure()) { result = fail(mapped.throwable()); }
-        else { result = mapped.value(); }
-        return result;
-    }
-
-    public abstract <U> TryM<U> fmapT(TryFunction<T, U> function);
-
-    public <U> TryM<U> amapT(TryM<TryFunction<T, U>> applicativeFunction) {
-        final TryM<TryM<U>> mapped = applicativeFunction.fmapT(new TryFunction<TryFunction<T, U>, TryM<U>>() {
+        final TryM<TryM<U>> mapped = (TryM<TryM<U>>)applicativeFunction.map(new Function<Function<T, U>, TryM<U>>() {
             @Override
-            public TryM<U> apply(TryFunction<T, U> tuf) {
-                return fmapT(tuf);
+            public TryM<U> apply(Function<T, U> tuf) {
+                return map(tuf);
             }
         });
         final TryM<U> result;
@@ -66,8 +44,33 @@ public abstract class TryMImpl<T> implements Serializable, TryM<T> {
         return result;
     }
 
-    public <U> TryM<U> mmapT(TryFunction<T, TryM<U>> function) {
-        final TryM<TryM<U>> mapped = fmapT(function);
+    @Override
+    public <U, MM extends Monad<U, TryM<?>>> TryM<U> flatMap(Function<T, MM> function) {
+        //noinspection unchecked
+        final TryM<TryM<U>> mapped = (TryM<TryM<U>>) map(function);
+        final TryM<U> result;
+        if (mapped.isFailure()) { result = fail(mapped.throwable()); }
+        else { result = mapped.value(); }
+        return result;
+    }
+
+    public abstract <U> TryM<U> mapT(TryFunction<T, U> function);
+
+    public <U> TryM<U> amapT(TryM<TryFunction<T, U>> applicativeFunction) {
+        final TryM<TryM<U>> mapped = applicativeFunction.mapT(new TryFunction<TryFunction<T, U>, TryM<U>>() {
+            @Override
+            public TryM<U> apply(TryFunction<T, U> tuf) {
+                return mapT(tuf);
+            }
+        });
+        final TryM<U> result;
+        if (mapped.isFailure()) { result = fail(mapped.throwable()); }
+        else { result = mapped.value(); }
+        return result;
+    }
+
+    public <U> TryM<U> flatMapT(TryFunction<T, TryM<U>> function) {
+        final TryM<TryM<U>> mapped = mapT(function);
         final TryM<U> result;
         if (mapped.isFailure()) { result = fail(mapped.throwable()); }
         else { result = mapped.value(); }
