@@ -5,7 +5,7 @@ package org.escalate42.javaz.common.function;
  * on 8/22/14.
  */
 public class FunctionOps {
-    public static <A, B> TryFunction<A, B> asTf(final Function<A, B> function) {
+    public static <A, B> ThrowableFunction<A, B> asTf(final Function<A, B> function) {
         return function::apply;
     }
 }

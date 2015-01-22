@@ -1,7 +1,7 @@
 package org.escalate42.javaz.trym;
 
 import org.escalate42.javaz.common.function.Function;
-import org.escalate42.javaz.common.function.TryFunction;
+import org.escalate42.javaz.common.function.ThrowableFunction;
 
 /**
  * Created by vdubs
@@ -26,7 +26,7 @@ public class Failure<T> extends TryMImpl<T> {
     }
 
     @Override
-    public <U> TryM<U> mapT(TryFunction<T, U> function) { return fail(this.throwable); }
+    public <U> TryM<U> mapT(ThrowableFunction<T, U> function) { return fail(this.throwable); }
 
     @Override
     public boolean isSuccess() { return false; }
