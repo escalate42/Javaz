@@ -3,16 +3,12 @@ package org.escalate42.javaz.future;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
-import org.escalate42.javaz.common.function.ThrowableClosure;
 import org.escalate42.javaz.common.monad.Monad;
 import org.escalate42.javaz.common.tuple.Tuple2;
 import org.escalate42.javaz.option.Option;
 import org.escalate42.javaz.trym.TryM;
 
-import java.util.concurrent.ExecutorService;
-
 import static org.escalate42.javaz.option.OptionImpl.*;
-import static org.escalate42.javaz.trym.TryMImpl.*;
 
 /**
  * Created by vdubs
@@ -20,50 +16,14 @@ import static org.escalate42.javaz.trym.TryMImpl.*;
  */
 public class FutureImpl<T> implements Future<T> {
 
-    private final ExecutorService executorService;
-    private volatile boolean isCompleted;
     private volatile Option<TryM<T>> result = none();
-
-    public FutureImpl(final ExecutorService executorService) {
-        this.executorService = executorService;
-        this.isCompleted = false;
-    }
-
-    public FutureImpl(final ThrowableClosure<T> closure, final ExecutorService executorService) {
-        this.executorService = executorService;
-        this.isCompleted = false;
-    }
-
-    public FutureImpl(T value, ExecutorService executorService) {
-        this.executorService = executorService;
-        this.isCompleted = true;
-        this.result = some(success(value));
-    }
-
-    public FutureImpl(Throwable error, ExecutorService executorService) {
-        this.executorService = executorService;
-        this.isCompleted = true;
-        this.result = some(fail(error));
-    }
 
     @Override
     public void onSuccess(Applicable<T> onSuccess) {
-        onComplete(new Applicable<TryM<T>>() {
-            @Override public void apply(TryM<T> tTryM) {
-                tTryM.foreach(onSuccess);
-            }
-        });
     }
 
     @Override
     public void onFailure(Applicable<Throwable> onFailure) {
-        onComplete(new Applicable<TryM<T>>() {
-            @Override public void apply(TryM<T> tTryM) {
-                if (tTryM.isFailure()) {
-                    onFailure.apply(tTryM.throwable());
-                }
-            }
-        });
     }
 
     @Override
@@ -72,7 +32,7 @@ public class FutureImpl<T> implements Future<T> {
 
     @Override
     public boolean isCompleted() {
-        return this.isCompleted;
+        return this.result.isDefined();
     }
 
     @Override
@@ -102,7 +62,7 @@ public class FutureImpl<T> implements Future<T> {
 
     @Override
     public <U> Future<U> pure(U value) {
-        return new FutureImpl<>(value, this.executorService);
+        return null;
     }
 
     @Override
