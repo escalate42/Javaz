@@ -9,4 +9,5 @@ import org.escalate42.javaz.common.function.extra.carried.Carry;
 public interface Function<A, B> {
     public B apply(A a);
     public default Closure<B> carry(A a) { return Carry.carry(a, this); }
+    public default Applicable<A> ommit() { return this::apply; }
 }
