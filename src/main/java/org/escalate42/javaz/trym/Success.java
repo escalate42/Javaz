@@ -1,5 +1,6 @@
 package org.escalate42.javaz.trym;
 
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.function.FunctionOps;
 import org.escalate42.javaz.common.function.ThrowableFunction;
@@ -23,7 +24,7 @@ public class Success<T> extends TryMImpl<T> {
     public <U> TryM<U> map(Function<T, U> function) { return mapT(FunctionOps.asTf(function)); }
 
     @Override
-    public void foreach(Function<T, Void> function) {
+    public void foreach(Applicable<T> function) {
         function.apply(this.value);
     }
 

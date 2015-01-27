@@ -1,5 +1,6 @@
 package org.escalate42.javaz.option;
 
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 
 /**
@@ -42,7 +43,7 @@ public class Some<T> extends OptionImpl<T> {
     }
 
     @Override
-    public void foreach(Function<T, Void> function) {
+    public void foreach(Applicable<T> function) {
         function.apply(this.value);
     }
 

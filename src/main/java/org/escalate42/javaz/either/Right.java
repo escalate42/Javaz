@@ -1,5 +1,6 @@
 package org.escalate42.javaz.either;
 
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 
 /**
@@ -24,7 +25,7 @@ public class Right<L, R> extends EitherImpl<L, R> {
     }
 
     @Override
-    public void foreach(Function<R, Void> function) {
+    public void foreach(Applicable<R> function) {
         function.apply(this.rightValue);
     }
 

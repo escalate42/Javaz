@@ -1,5 +1,6 @@
 package org.escalate42.javaz.either;
 
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 
 /**
@@ -21,7 +22,7 @@ public class Left<L, R> extends EitherImpl<L, R> {
     public <U> Either<L, U> map(Function<R, U> function) { return left(this.leftValue); }
 
     @Override
-    public void foreach(Function<R, Void> function) {
+    public void foreach(Applicable<R> function) {
     }
 
     @Override

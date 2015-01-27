@@ -1,6 +1,7 @@
 package org.escalate42.javaz.trym;
 
 import org.escalate42.javaz.common.applicative.Applicative;
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.function.extra.Function2;
 import org.escalate42.javaz.common.function.extra.Function3;
@@ -28,7 +29,7 @@ public final class TryMOps implements MonadOps<TryM<?>> {
     }
 
     @Override
-    public <T, MM extends Functor<T, TryM<?>>> void foreach(MM functor, Function<T, Void> function) {
+    public <T, MM extends Functor<T, TryM<?>>> void foreach(MM functor, Applicable<T> function) {
         functor.foreach(function);
     }
 

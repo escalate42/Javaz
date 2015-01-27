@@ -1,5 +1,6 @@
 package org.escalate42.javaz.option;
 
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 
 /**
@@ -33,7 +34,7 @@ public class None<T> extends OptionImpl<T> {
     public Option<T> filter(Function<T, Boolean> predicate) { return none(); }
 
     @Override
-    public void foreach(Function<T, Void> function) {
+    public void foreach(Applicable<T> function) {
     }
 
     @Override

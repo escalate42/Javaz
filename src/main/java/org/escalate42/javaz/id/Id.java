@@ -1,6 +1,7 @@
 package org.escalate42.javaz.id;
 
 import org.escalate42.javaz.common.applicative.Applicative;
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.monad.Monad;
 
@@ -26,7 +27,7 @@ public final class Id<T> implements Monad<T, Id<?>> {
     }
 
     @Override
-    public void foreach(Function<T, Void> function) {
+    public void foreach(Applicable<T> function) {
         function.apply(this.value);
     }
 

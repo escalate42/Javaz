@@ -1,5 +1,6 @@
 package org.escalate42.javaz.either;
 
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.function.extra.Function2;
@@ -39,7 +40,7 @@ public final class EitherOps implements MonadOps<Either<?, ?>> {
     }
 
     @Override
-    public <T, MM extends Functor<T, Either<?, ?>>> void foreach(MM functor, Function<T, Void> function) {
+    public <T, MM extends Functor<T, Either<?, ?>>> void foreach(MM functor, Applicable<T> function) {
         functor.foreach(function);
     }
 

@@ -1,5 +1,6 @@
 package org.escalate42.javaz.common.functor;
 
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 
 /**
@@ -8,5 +9,5 @@ import org.escalate42.javaz.common.function.Function;
  */
 public interface Functor<T, M extends Functor<?, M>> {
     public <U> M map(Function<T, U> function);
-    public void foreach(Function<T, Void> function);
+    public void foreach(Applicable<T> function);
 }

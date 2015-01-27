@@ -1,6 +1,7 @@
 package org.escalate42.javaz.id;
 
 import org.escalate42.javaz.common.applicative.Applicative;
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.functor.Functor;
 import org.escalate42.javaz.common.monad.Monad;
@@ -23,7 +24,7 @@ public final class IdOps implements MonadOps<Id<?>> {
     }
 
     @Override
-    public <T, MM extends Functor<T, Id<?>>> void foreach(MM functor, Function<T, Void> function) {
+    public <T, MM extends Functor<T, Id<?>>> void foreach(MM functor, Applicable<T> function) {
         functor.foreach(function);
     }
 

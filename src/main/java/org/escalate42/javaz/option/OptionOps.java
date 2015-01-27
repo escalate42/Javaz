@@ -2,6 +2,7 @@ package org.escalate42.javaz.option;
 
 import org.escalate42.javaz.common.filterable.Filterable;
 import org.escalate42.javaz.common.filterable.FilterableOps;
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.function.extra.*;
@@ -44,7 +45,7 @@ public final class OptionOps implements MonadOps<Option<?>>, FilterableOps<Optio
     }
 
     @Override
-    public <T, MM extends Functor<T, Option<?>>> void foreach(MM functor, Function<T, Void> function) {
+    public <T, MM extends Functor<T, Option<?>>> void foreach(MM functor, Applicable<T> function) {
         //not safe, but the easiest way to make pretty API
         //noinspection unchecked
         functor.foreach(function);
