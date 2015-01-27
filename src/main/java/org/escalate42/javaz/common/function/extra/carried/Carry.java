@@ -1,5 +1,6 @@
 package org.escalate42.javaz.common.function.extra.carried;
 
+import org.escalate42.javaz.common.function.Closure;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.function.extra.*;
 
@@ -8,6 +9,9 @@ import org.escalate42.javaz.common.function.extra.*;
  * on 1/20/15.
  */
 public class Carry {
+    public static <A, B> Closure<B> carry(A a, Function<A, B> function) {
+        return Carried.carry(a, function);
+    }
     public static <A1, A2, B> Function<A2, B> carry(A1 a1, Function2<A1, A2, B> function2) {
         return Carried2.carry(a1, function2);
     }

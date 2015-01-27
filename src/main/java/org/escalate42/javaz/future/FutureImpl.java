@@ -8,7 +8,6 @@ import org.escalate42.javaz.common.monad.Monad;
 import org.escalate42.javaz.common.tuple.Tuple2;
 import org.escalate42.javaz.option.Option;
 import org.escalate42.javaz.trym.TryM;
-import org.escalate42.javaz.trym.TryMImpl;
 
 import java.util.concurrent.ExecutorService;
 
@@ -24,25 +23,15 @@ public class FutureImpl<T> implements Future<T> {
     private final ExecutorService executorService;
     private volatile boolean isCompleted;
     private volatile Option<TryM<T>> result = none();
-    private volatile Option<Applicable<TryM<T>>> onCompleteFunction = none();
-    private final Object lock = new Object();
+
+    public FutureImpl(final ExecutorService executorService) {
+        this.executorService = executorService;
+        this.isCompleted = false;
+    }
 
     public FutureImpl(final ThrowableClosure<T> closure, final ExecutorService executorService) {
         this.executorService = executorService;
         this.isCompleted = false;
-        this.executorService.execute(new Runnable() {
-            @Override public void run() {
-                result = some(TryMImpl.tryC(closure).apply());
-                synchronized (lock) {
-                    isCompleted = true;
-                    onCompleteFunction.foreach(new Applicable<Applicable<TryM<T>>>() {
-                        @Override public void apply(Applicable<TryM<T>> tryMApplicable) {
-                            tryMApplicable.apply(result.get());
-                        }
-                    });
-                }
-            }
-        });
     }
 
     public FutureImpl(T value, ExecutorService executorService) {
@@ -122,7 +111,7 @@ public class FutureImpl<T> implements Future<T> {
     }
 
     @Override
-    public <U> Future<?> map(Function<T, U> function) {
+    public <U> Future<U> map(Function<T, U> function) {
         return null;
     }
 }
