@@ -203,6 +203,7 @@ public class FutureImpl<T> implements Future<T> {
         return this.body;
     }
 
+    // TODO: remove this and make unit tests
     public static void main(final String[] args) throws InterruptedException {
         System.out.println("Showtime");
         final Future<String> future = future(() -> {Thread.sleep(1000); return "Vadim";});
