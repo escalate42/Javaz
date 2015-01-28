@@ -82,7 +82,7 @@ public class FutureImpl<T> implements Future<T> {
 
     @Override
     public boolean complete(T value) {
-        return this.body.complete(value);
+        return complete(success(value));
     }
 
     @Override
@@ -217,5 +217,9 @@ public class FutureImpl<T> implements Future<T> {
         System.out.println(future.value());
         System.out.println(mapped.value());
         System.out.println(flatMapped.value());
+        final Future<Function<String, String>> applicative = future(() -> String::toUpperCase);
+        final Future<String> aMapped = future.amap(applicative);
+        Thread.sleep(1000);
+        System.out.println(aMapped.value());
     }
 }
