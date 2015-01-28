@@ -25,6 +25,7 @@ import static org.escalate42.javaz.trym.TryMImpl.*;
 public class FutureImpl<T> implements Future<T> {
 
     private final Executor executor;
+    private final CompletableFuture<T> sourceFuture;
     private final CompletableFuture<T> body;
     private volatile Option<TryM<T>> result = none();
 
@@ -72,6 +73,7 @@ public class FutureImpl<T> implements Future<T> {
 
     private FutureImpl(final Executor executor, final CompletableFuture<T> future) {
         this.executor = executor;
+        this.sourceFuture = future;
         this.body = future.whenComplete((r, t) -> {
             if (r != null) {
                 result = some(success(r));
@@ -93,9 +95,7 @@ public class FutureImpl<T> implements Future<T> {
 
     @Override
     public boolean complete(TryM<T> t) {
-        final boolean completed = t.isSuccess() ? this.body.complete(t.value()) : this.body.completeExceptionally(t.throwable());
-        if (completed) {this.result = some(t);}
-        return completed;
+        return t.isSuccess() ? this.sourceFuture.complete(t.value()) : this.sourceFuture.completeExceptionally(t.throwable());
     }
 
     @Override
@@ -188,6 +188,7 @@ public class FutureImpl<T> implements Future<T> {
         future.onSuccess((r) -> System.out.println(r + "->" + future.value()));
         future.onFailure(Throwable::printStackTrace);
         final Future<String> mapped = future.map(String::toUpperCase);
+        mapped.onComplete((t) -> System.out.println("Mapped just have been completed"));
         final Future<String> flatMapped = future.flatMap((s) -> future((ThrowableClosure<String>)s::toUpperCase));
         flatMapped.onComplete((t) -> System.out.println("FlatMapped just have been completed"));
         Thread.sleep(2000);
