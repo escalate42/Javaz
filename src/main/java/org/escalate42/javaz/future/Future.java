@@ -9,6 +9,7 @@ import org.escalate42.javaz.option.Option;
 import org.escalate42.javaz.trym.TryM;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by vdubs
@@ -27,9 +28,11 @@ public interface Future<T> extends Monad<T, Future<?>> {
     public void onFailure(Applicable<Throwable> onFailure);
     public void onComplete(Applicable<TryM<T>> onComplete);
     public boolean isCompleted();
-    public <U> Future<U> recover(Function<Throwable, U> recover);
-    public <U> Future<U> recoverWith(Function<Throwable, Future<U>> recover);
+    public Future<T> recover(Function<Throwable, T> recover);
+    public Future<T> recoverWith(Function<Throwable, Future<T>> recover);
     public Option<TryM<T>> value();
+    public TryM<T> get();
+    public TryM<T> get(long timeout, TimeUnit timeUnit);
     public <U> Future<Tuple2<T, U>> zip(Future<U> another);
     public CompletableFuture<T> toCompletableFuture();
 }
