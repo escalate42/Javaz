@@ -160,7 +160,17 @@ public class FutureImpl<T> implements Future<T> {
 
     @Override
     public <U, MM extends Applicative<Function<T, U>, Future<?>>> Future<U> amap(MM applicativeFunction) {
-        return null;
+        final Future<Function<T, U>> applicative = (Future<Function<T, U>>)applicativeFunction;
+        final Future<U> future = future(this.executor);
+        applicative.onComplete((tryM) -> {
+            if (tryM.isSuccess()) {
+                onComplete((iTryM) -> {
+                    if (iTryM.isSuccess()) { future.complete(tryM.value().apply(iTryM.value())); }
+                    else { future.complete(iTryM.throwable()); }
+                });
+            } else { future.complete(tryM.throwable()); }
+        });
+        return future;
     }
 
     @Override
