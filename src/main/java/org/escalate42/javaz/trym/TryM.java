@@ -1,6 +1,7 @@
 package org.escalate42.javaz.trym;
 
 import org.escalate42.javaz.common.applicative.Applicative;
+import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.function.ThrowableFunction;
 import org.escalate42.javaz.common.monad.Monad;
@@ -23,4 +24,5 @@ public interface TryM<T> extends Monad<T, TryM<?>> {
     public Throwable throwable();
     public <U> U fold(Function<Throwable, U> ifFailure, Function<T, U> ifSuccess);
     public <U> U fold(final U ifFailure, Function<T, U> ifSuccess);
+    public void foreachFailure(Applicable<Throwable> applicable);
 }

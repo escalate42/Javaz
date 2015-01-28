@@ -29,6 +29,10 @@ public class Success<T> extends TryMImpl<T> {
     }
 
     @Override
+    public void foreachFailure(Applicable<Throwable> function) {
+    }
+
+    @Override
     public <U> TryM<U> mapT(ThrowableFunction<T, U> function)  { return TryMImpl.tryM(function, this.value); }
 
     @Override
