@@ -9,10 +9,7 @@ import org.escalate42.javaz.common.tuple.Tuple2;
 import org.escalate42.javaz.option.Option;
 import org.escalate42.javaz.trym.TryM;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.*;
 
 import static org.escalate42.javaz.option.OptionImpl.*;
 import static org.escalate42.javaz.trym.TryMImpl.*;
@@ -85,7 +82,7 @@ public class FutureImpl<T> implements Future<T> {
 
     @Override
     public boolean complete(T value) {
-        return this.body.complete(value);
+        return complete(success(value));
     }
 
     @Override
@@ -123,13 +120,16 @@ public class FutureImpl<T> implements Future<T> {
     }
 
     @Override
-    public <U> Future<U> recover(Function<Throwable, U> recover) {
-        return null;
+    public Future<T> recover(Function<Throwable, T> recover) {
+        return future(this.executor, this.body.exceptionally(recover::apply));
     }
 
     @Override
-    public <U> Future<U> recoverWith(Function<Throwable, Future<U>> recover) {
-        return null;
+    public Future<T> recoverWith(Function<Throwable, Future<T>> recover) {
+        final Future<T> future = future(this.executor);
+        onFailure((t) -> recover.apply(t).onComplete(future::complete));
+        onSuccess(future::complete);
+        return future;
     }
 
     @Override
@@ -138,8 +138,20 @@ public class FutureImpl<T> implements Future<T> {
     }
 
     @Override
+    public TryM<T> get() {
+        try { return success(this.body.get()); }
+        catch (Throwable e) { return fail(e); }
+    }
+
+    @Override
+    public TryM<T> get(long timeout, TimeUnit timeUnit) {
+        try { return success(this.body.get(timeout, timeUnit)); }
+        catch (Throwable e) { return fail(e); }
+    }
+
+    @Override
     public <U> Future<Tuple2<T, U>> zip(Future<U> another) {
-        return null;
+        return flatMap((t) -> another.map((u) -> Tuple2.t(t, u)));
     }
 
     @Override
@@ -191,6 +203,7 @@ public class FutureImpl<T> implements Future<T> {
         return this.body;
     }
 
+    // TODO: remove this and make unit tests
     public static void main(final String[] args) throws InterruptedException {
         System.out.println("Showtime");
         final Future<String> future = future(() -> {Thread.sleep(1000); return "Vadim";});
@@ -205,5 +218,9 @@ public class FutureImpl<T> implements Future<T> {
         System.out.println(future.value());
         System.out.println(mapped.value());
         System.out.println(flatMapped.value());
+        final Future<Function<String, String>> applicative = future(() -> String::toUpperCase);
+        final Future<String> aMapped = future.amap(applicative);
+        Thread.sleep(1000);
+        System.out.println(aMapped.value());
     }
 }

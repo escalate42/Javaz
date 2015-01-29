@@ -70,10 +70,13 @@ public class OptionTest {
 
     @Test
     public void yieldForTest() {
+        final long before = System.currentTimeMillis();
         final Option<String> result = OptionOps.id.yieldFor(
                 some("1"), some("2"), some("3"),
                 (s1, s2, s3) -> s1 + s2 + s3
         );
+        final long after = System.currentTimeMillis();
+        System.out.println("yield(3):" + (after - before) + "ms");
         assertEquals(some("123"), result);
     }
 

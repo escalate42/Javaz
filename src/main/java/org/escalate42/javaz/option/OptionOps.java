@@ -57,34 +57,4 @@ public final class OptionOps implements MonadOps<Option<?>>, FilterableOps<Optio
         final Option<T> option = (Option<T>) monad;
         return option.flatMap(function);
     }
-
-    public <U, A1, A2> Option<U> yieldFor(Option<A1> a1Option, Option<A2> a2Option, Function2<A1, A2, U> function2) {
-        final Option<U> result;
-        if (a1Option.isDefined() && a2Option.isDefined()) {
-            result = OptionImpl.some(function2.apply(a1Option.get(), a2Option.get()));
-        } else {
-            result = OptionImpl.none();
-        }
-        return result;
-    }
-
-    public <U, A1, A2, A3> Option<U> yieldFor(Option<A1> a1Option, Option<A2> a2Option, Option<A3> a3Option, Function3<A1, A2, A3, U> function3) {
-        final Option<U> result;
-        if (a1Option.isDefined()) {
-            result = yieldFor(a2Option, a3Option, function3.carry(a1Option.get()));
-        } else {
-            result = OptionImpl.none();
-        }
-        return result;
-    }
-
-    public <U, A1, A2, A3, A4> Option<U> yieldFor(Option<A1> a1Option, Option<A2> a2Option, Option<A3> a3Option, Option<A4> a4Option, Function4<A1, A2, A3, A4, U> function4) {
-        final Option<U> result;
-        if (a1Option.isDefined()) {
-            result = yieldFor(a2Option, a3Option, a4Option, function4.carry(a1Option.get()));
-        } else {
-            result = OptionImpl.none();
-        }
-        return result;
-    }
 }
