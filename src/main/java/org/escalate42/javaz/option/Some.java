@@ -30,10 +30,10 @@ public class Some<T> extends OptionImpl<T> {
     public T orElse(T elseValue) { return this.value; }
 
     @Override
-    public OptionImpl<T> or(Option<T> elseValue) { return this; }
+    public Option<T> or(Option<T> elseValue) { return this; }
 
     @Override
-    public <U> OptionImpl<U> map(Function<T, U> function) {
+    public <U> Option<U> map(Function<T, U> function) {
         return some(function.apply(this.value));
     }
 

@@ -1,20 +1,12 @@
 package org.escalate42.javaz.option;
 
-import org.escalate42.javaz.common.filterable.Filterable;
-import org.escalate42.javaz.common.filterable.FilterableOps;
-import org.escalate42.javaz.common.function.Applicable;
-import org.escalate42.javaz.common.function.Function;
-import org.escalate42.javaz.common.applicative.Applicative;
-import org.escalate42.javaz.common.function.extra.*;
-import org.escalate42.javaz.common.functor.Functor;
-import org.escalate42.javaz.common.monad.Monad;
 import org.escalate42.javaz.common.monad.MonadOps;
 
 /**
  * Created by vdubs
  * on 8/21/14.
  */
-public final class OptionOps implements MonadOps<Option<?>>, FilterableOps<Option<?>> {
+public final class OptionOps implements MonadOps<Option<?>> {
 
     private OptionOps() {}
 
@@ -22,39 +14,4 @@ public final class OptionOps implements MonadOps<Option<?>>, FilterableOps<Optio
 
     @Override
     public <U> Option<U> pure(final U value) { return OptionImpl.some(value); }
-
-    @Override
-    public <T, U, MM extends Applicative<T, Option<?>>, MF extends Applicative<Function<T, U>, Option<?>>> Option<U> amap(MM app, MF appF) {
-        //not safe, but the easiest way to make pretty API
-        //noinspection unchecked
-        final Option<T> option = (Option<T>) app;
-        return option.amap(appF);
-    }
-
-    @Override
-    public <T, U, MM extends Functor<T, Option<?>>> Option<U> map(MM functor, Function<T, U> function) {
-        //not safe, but the easiest way to make pretty API
-        //noinspection unchecked
-        final Option<T> option = (Option<T>) functor;
-        return option.map(function);
-    }
-
-    @Override
-    public <T, MM extends Filterable<T, Option<?>>> Option<?> filter(MM filterable, Function<T, Boolean> function) {
-        return filterable.filter(function);
-    }
-
-    @Override
-    public <T, MM extends Functor<T, Option<?>>> void foreach(MM functor, Applicable<T> function) {
-        //not safe, but the easiest way to make pretty API
-        //noinspection unchecked
-        functor.foreach(function);
-    }
-
-    @Override
-    public <T, U, MM extends Monad<U, Option<?>>> Option<U> flatMap(Option<?> monad, Function<T, MM> function) {
-        //noinspection unchecked
-        final Option<T> option = (Option<T>) monad;
-        return option.flatMap(function);
-    }
 }

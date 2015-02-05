@@ -61,20 +61,12 @@ public class OptionTest {
     }
 
     @Test
-    public void maybeOpsTest() {
-        final OptionOps id = OptionOps.id;
-        assertEquals(some("onetwo"), id.map(option("one"), s -> s + "two"));
-        assertEquals(some("onetwo"), id.amap(option("one"), id.pure(s -> s + "two")));
-        assertEquals(some("onetwo"), id.flatMap(option("one"), s -> some(s + "two")));
-    }
-
-    @Test
     public void yieldForTest() {
-        final Option<String> result = OptionOps.id.yieldFor(
-                some("1"), some("2"), some("3"),
+        final OptionOps id = OptionOps.id;
+        final Option<String> result = id.yieldFor(
+                id.pure("1"), id.pure("2"), id.pure("3"),
                 (s1, s2, s3) -> s1 + s2 + s3
         );
-        final long after = System.currentTimeMillis();
         assertEquals(some("123"), result);
     }
 

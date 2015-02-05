@@ -10,7 +10,6 @@ import org.escalate42.javaz.common.function.extra.*;
  */
 @SuppressWarnings("unchecked")
 public interface MonadOps<M extends Monad<?, M>> extends ApplicativeOps<M> {
-    public <T, U, MM extends Monad<U, M>> M flatMap(M monad, Function<T, MM> function);
 
     public default <T1, T2, U, M1 extends Monad<T1, M>, M2 extends Monad<T2, M>, MU extends Monad<U, M>> MU yieldFor(
             M1 m1, M2 m2, Function2<T1, T2, U> function2
