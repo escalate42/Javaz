@@ -10,6 +10,7 @@ import org.escalate42.javaz.option.Option;
 import org.escalate42.javaz.trym.TryM;
 
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.escalate42.javaz.option.OptionImpl.*;
 import static org.escalate42.javaz.trym.TryMImpl.*;
@@ -24,7 +25,7 @@ public class FutureImpl<T> implements Future<T> {
     private final Executor executor;
     private final CompletableFuture<T> sourceFuture;
     private final CompletableFuture<T> body;
-    private volatile Option<TryM<T>> result = none();
+    private final AtomicReference<Option<TryM<T>>> result = new AtomicReference<>(none());
 
     public static <T> FutureImpl<T> future(Executor executor) {
         return new FutureImpl<>(executor, new CompletableFuture<>());
@@ -73,9 +74,11 @@ public class FutureImpl<T> implements Future<T> {
         this.sourceFuture = future;
         this.body = future.whenComplete((r, t) -> {
             if (r != null) {
-                result = some(success(r));
+                result.set(some(success(r)));
             } else if (t != null) {
-                result = some(fail(t.getCause().getCause()));
+                Throwable cause = t;
+                while (cause.getCause() != null) { cause = cause.getCause(); }
+                result.set(some(fail(cause)));
             }
         });
     }
@@ -98,20 +101,20 @@ public class FutureImpl<T> implements Future<T> {
     @Override
     public void onSuccess(Applicable<T> onSuccess) {
         this.body.whenCompleteAsync((r, t) ->
-            this.result.foreach((tryM) -> tryM.foreach(onSuccess))
+            this.result.get().foreach((tryM) -> tryM.foreach(onSuccess))
         );
     }
 
     @Override
     public void onFailure(Applicable<Throwable> onFailure) {
         this.body.whenCompleteAsync((r, t) ->
-            this.result.foreach((tryM) -> tryM.foreachFailure(onFailure))
+            this.result.get().foreach((tryM) -> tryM.foreachFailure(onFailure))
         );
     }
 
     @Override
     public void onComplete(Applicable<TryM<T>> onComplete) {
-        this.body.whenCompleteAsync((r, t) -> onComplete.apply(result.get()));
+        this.body.whenCompleteAsync((r, t) -> onComplete.apply(result.get().get()));
     }
 
     @Override
@@ -134,19 +137,35 @@ public class FutureImpl<T> implements Future<T> {
 
     @Override
     public Option<TryM<T>> value() {
-        return this.result;
+        return this.result.get();
     }
 
     @Override
     public TryM<T> get() {
-        try { return success(this.body.get()); }
-        catch (Throwable e) { return fail(e); }
+        try {
+            this.body.get();
+            return this.result.get().get();
+        } catch (Throwable e) {
+            if (this.body.isCompletedExceptionally()) {
+                return this.result.get().get();
+            } else {
+                return fail(e);
+            }
+        }
     }
 
     @Override
     public TryM<T> get(long timeout, TimeUnit timeUnit) {
-        try { return success(this.body.get(timeout, timeUnit)); }
-        catch (Throwable e) { return fail(e); }
+        try {
+            this.body.get(timeout, timeUnit);
+            return this.result.get().get();
+        } catch (Throwable e) {
+            if (this.body.isCompletedExceptionally()) {
+                return this.result.get().get();
+            } else {
+                return fail(e);
+            }
+        }
     }
 
     @Override
