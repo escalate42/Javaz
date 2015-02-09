@@ -221,25 +221,4 @@ public class FutureImpl<T> implements Future<T> {
     public CompletableFuture<T> toCompletableFuture() {
         return this.body;
     }
-
-    // TODO: remove this and make unit tests
-    public static void main(final String[] args) throws InterruptedException {
-        System.out.println("Showtime");
-        final Future<String> future = future(() -> {Thread.sleep(1000); return "Vadim";});
-        future.onComplete((r) -> System.out.println(r + "->" + future.value()));
-        future.onSuccess((r) -> System.out.println(r + "->" + future.value()));
-        future.onFailure(Throwable::printStackTrace);
-        final Future<String> mapped = future.map(String::toUpperCase);
-        mapped.onComplete((t) -> System.out.println("Mapped just have been completed"));
-        final Future<String> flatMapped = future.flatMap((s) -> future((ThrowableClosure<String>)s::toUpperCase));
-        flatMapped.onComplete((t) -> System.out.println("FlatMapped just have been completed"));
-        Thread.sleep(2000);
-        System.out.println(future.value());
-        System.out.println(mapped.value());
-        System.out.println(flatMapped.value());
-        final Future<Function<String, String>> applicative = future(() -> String::toUpperCase);
-        final Future<String> aMapped = future.amap(applicative);
-        Thread.sleep(1000);
-        System.out.println(aMapped.value());
-    }
 }

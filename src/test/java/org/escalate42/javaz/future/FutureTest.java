@@ -10,19 +10,17 @@ import static org.escalate42.javaz.trym.TryMImpl.*;
  * Created by vdubs
  * on 2/5/15.
  */
+@SuppressWarnings("AssertEqualsBetweenInconvertibleTypes")
 public class FutureTest {
 
-    final Throwable exception = new Exception("BANG!");
+    final Throwable exception = new RuntimeException("BANG!");
 
     @Test
-    public void testFlatMap() {
-//        final Future<String> resultSuccess = future(() -> "one").flatMap(s1 -> completed(s1 + "two"));
-        final Future<String> failure = completed(exception);
-        final Future<String> resultFailure = future(() -> "one").flatMap(s1 -> failure);
-//        assertEquals(success("onetwo"), resultSuccess.get());
-        System.out.println("rf:" + resultFailure);
-        System.out.println("f:" + failure);
-        assertEquals(fail(exception), resultFailure.get());
+    public void testFlatMap() throws InterruptedException {
+        final Future<String> fsf = future(() -> "one").flatMap(s -> FutureImpl.<String>completed(exception));
+        final Future<String> ffs = FutureImpl.<String>completed(exception).flatMap((s) -> future(() -> "one"));
+        assertEquals(fail(exception), fsf.get());
+        assertEquals(fail(exception), ffs.get());
     }
 
     @Test
@@ -39,11 +37,9 @@ public class FutureTest {
     public void testYieldForFailure() throws InterruptedException {
         final FutureOps id = FutureOps.id;
         final Future<String> result = id.yieldFor(
-                completed("one"), completed("two"), future(() -> "three"), future(() -> {throw new Exception("bang");}),
+                completed("one"), completed("two"), future(() -> {throw exception;}), future(() -> "three"),
                 (s1, s2, s3, s4) -> s1 + s2 + s3 + s4
         );
-        Thread.sleep(3000);
-        System.out.println(result + "->" + result.value());
-        assertEquals(success("onetwothree"), result.get());
+        assertEquals(fail(exception), result.get());
     }
 }
