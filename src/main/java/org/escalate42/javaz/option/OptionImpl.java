@@ -48,7 +48,7 @@ public abstract class OptionImpl<T> implements Serializable, Option<T> {
     @Override
     public <U, MM extends Monad<U, Option<?>>> Option<U> flatMap(Function<T, MM> function) {
         //noinspection unchecked
-        return (Option<U>) map(function).get();
+        return isDefined() ? (Option<U>)function.apply(get()) : none();
     }
 
     public abstract boolean isDefined();

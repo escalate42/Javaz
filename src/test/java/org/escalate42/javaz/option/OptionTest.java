@@ -30,6 +30,7 @@ public class OptionTest {
 
     @Test
     public void maybeTest() {
+        assertEquals(none(), option(null).flatMap((s) -> some("hello")));
         assertEquals(some("some string"), option("some string"));
         assertEquals(none(), option(null));
     }

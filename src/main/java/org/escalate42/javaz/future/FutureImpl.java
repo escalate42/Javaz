@@ -177,7 +177,7 @@ public class FutureImpl<T> implements Future<T> {
     public <U, MM extends Monad<U, Future<?>>> Future<U> flatMap(Function<T, MM> function) {
         final Future<U> future = future(this.executor);
         final Function<T, Future<U>> toApply = (Function<T, Future<U>>)function;
-        onComplete((tryM) ->{
+        onComplete((tryM) -> {
             if (tryM.isSuccess()) {toApply.apply(tryM.value()).onComplete(future::complete); }
             else { future.complete(tryM.throwable()); }
         });
