@@ -37,12 +37,11 @@ public abstract class OptionImpl<T> implements Serializable, Option<T> {
     @Override
     public <U, MM extends Applicative<Function<T, U>, Option<?>>> Option<U> amap(MM applicativeFunction) {
         //noinspection unchecked
-        return (Option<U>)(applicativeFunction.map(new Function<Function<T, U>, Option<U>>() {
-            @Override
-            public Option<U> apply(Function<T, U> tuf) {
-                return map(tuf);
+        return isDefined() ? (Option<U>)applicativeFunction.map(new Function<Function<T,U>, U>() {
+            @Override public U apply(Function<T, U> tuFunction) {
+                return tuFunction.apply(get());
             }
-        }).get());
+        }) : none();
     }
 
     @Override
