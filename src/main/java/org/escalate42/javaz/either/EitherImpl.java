@@ -3,6 +3,8 @@ package org.escalate42.javaz.either;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.monad.Monad;
+import org.escalate42.javaz.option.Option;
+import org.escalate42.javaz.option.OptionImpl;
 
 import java.io.Serializable;
 
@@ -48,21 +50,24 @@ public abstract class EitherImpl<L, R> implements Serializable, Either<L, R> {
         return result;
     }
 
-    public abstract <U> Either<U, R> fmapLeft(Function<L, U> function);
+    public abstract <U> Either<U, R> mapLeft(Function<L, U> function);
 
     public <U> Either<U, R> amapLeft(Either<?, Function<L, U>> applicativeFunction) {
         //noinspection unchecked
-        return applicativeFunction.map(new Function<Function<L, U>, Either<U, R>>() {
-            @Override
-            public Either<U, R> apply(Function<L, U> luf) {
-                return fmapLeft(luf);
+        final Either<Either<U, R>, R> mapped = (Either<Either<U, R>, R>)applicativeFunction.map(new Function<Function<L, U>, Either<U, R>>() {
+            @Override public Either<U, R> apply(Function<L, U> luf) {
+                return mapLeft(luf);
             }
-        }).right();
+        });
+        final Either<U, R> result;
+        if (mapped.isLeft()) { result = mapped.left(); }
+        else { result = right(mapped.right()); }
+        return result;
     }
 
-    public <U> Either<U, R> mmapLeft(Function<L, Either<U, R>> function) {
+    public <U> Either<U, R> flatMapLeft(Function<L, Either<U, R>> function) {
         //noinspection unchecked
-        return fmapLeft(function).left();
+        return mapLeft(function).left();
     }
 
     public abstract R right();
@@ -73,4 +78,8 @@ public abstract class EitherImpl<L, R> implements Serializable, Either<L, R> {
 
     public abstract <U> U foldRight(U ifLeft, Function<R, U> function);
     public abstract <U> U foldLeft(U ifRight, Function<L, U> function);
+
+    public Option<R> asOption() {
+        return isRight() ? OptionImpl.some(right()) : OptionImpl.none();
+    }
 }

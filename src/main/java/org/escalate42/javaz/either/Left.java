@@ -26,7 +26,7 @@ public class Left<L, R> extends EitherImpl<L, R> {
     }
 
     @Override
-    public <U> Either<U, R> fmapLeft(Function<L, U> function) { return left(function.apply(this.leftValue)); }
+    public <U> Either<U, R> mapLeft(Function<L, U> function) { return left(function.apply(this.leftValue)); }
 
     @Override
     public R right() { throw new IllegalAccessError(); }
