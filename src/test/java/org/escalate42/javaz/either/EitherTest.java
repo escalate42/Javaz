@@ -42,4 +42,22 @@ public class EitherTest {
         assertEquals(right("oneright"), right("one").flatMap(rightFunction));
         assertEquals(left("oneleft"), right("one").flatMap(leftFunction));
     }
+
+    @Test
+    public void yieldForTestRight() {
+        final Either<String, Integer> either = EitherOps.id.yieldFor(
+                right("first"), right("second"), right("third").map(String::length),
+                (s1, s2, i3) -> s1.length() + s2.length() + i3
+        );
+        assertEquals(right(16), either);
+    }
+
+    @Test
+    public void yieldForTestLeft() {
+        final Either<String, Integer> either = EitherOps.id.yieldFor(
+                right("first"), left("fail"), right("third").map(String::length),
+                (String s1, String s2, Integer i3) -> s1.length() + s2.length() + i3
+        );
+        assertEquals(left("fail"), either);
+    }
 }
