@@ -4,7 +4,7 @@ import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.function.ThrowableClosure;
 import org.escalate42.javaz.common.function.ThrowableFunction;
 import org.junit.Test;
-import static org.escalate42.javaz.trym.TryMImpl.*;
+import static org.escalate42.javaz.trym.TryMOps.*;
 import static org.junit.Assert.assertEquals;
 
 /**

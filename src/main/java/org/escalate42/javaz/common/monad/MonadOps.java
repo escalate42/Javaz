@@ -11,14 +11,14 @@ import org.escalate42.javaz.common.function.extra.*;
 @SuppressWarnings("unchecked")
 public interface MonadOps<M extends Monad<?, M>> extends ApplicativeOps<M> {
 
-    public default <T1, T2, U, M1 extends Monad<T1, M>, M2 extends Monad<T2, M>, MU extends Monad<U, M>> MU yieldFor(
+    default <T1, T2, U, M1 extends Monad<T1, M>, M2 extends Monad<T2, M>, MU extends Monad<U, M>> MU yieldFor(
             M1 m1, M2 m2, Function2<T1, T2, U> function2
     ) {
         final Monad<Function<T2, U>, M> applicativeFunction = (Monad<Function<T2, U>, M>)m1.map(function2::carry);
         return (MU)m2.amap(applicativeFunction);
     }
 
-    public default <T1, T2, T3, U,
+    default <T1, T2, T3, U,
             M1 extends Monad<T1, M>,
             M2 extends Monad<T2, M>,
             M3 extends Monad<T3, M>,
@@ -29,7 +29,7 @@ public interface MonadOps<M extends Monad<?, M>> extends ApplicativeOps<M> {
         return (MU)m1.flatMap((t1) -> (MU)yieldFor(m2, m3, function3.carry(t1)));
     }
 
-    public default <T1, T2, T3, T4, U,
+    default <T1, T2, T3, T4, U,
             M1 extends Monad<T1, M>,
             M2 extends Monad<T2, M>,
             M3 extends Monad<T3, M>,
@@ -41,7 +41,7 @@ public interface MonadOps<M extends Monad<?, M>> extends ApplicativeOps<M> {
         return (MU)m1.flatMap((t1) -> (MU)yieldFor(m2, m3, m4, function4.carry(t1)));
     }
 
-    public default <T1, T2, T3, T4, T5, U,
+    default <T1, T2, T3, T4, T5, U,
             M1 extends Monad<T1, M>,
             M2 extends Monad<T2, M>,
             M3 extends Monad<T3, M>,
@@ -54,7 +54,7 @@ public interface MonadOps<M extends Monad<?, M>> extends ApplicativeOps<M> {
         return (MU)m1.flatMap((t1) -> (MU)yieldFor(m2, m3, m4, m5, function5.carry(t1)));
     }
 
-    public default <T1, T2, T3, T4, T5, T6, U,
+    default <T1, T2, T3, T4, T5, T6, U,
             M1 extends Monad<T1, M>,
             M2 extends Monad<T2, M>,
             M3 extends Monad<T3, M>,
@@ -68,7 +68,7 @@ public interface MonadOps<M extends Monad<?, M>> extends ApplicativeOps<M> {
         return (MU)m1.flatMap((t1) -> (MU)yieldFor(m2, m3, m4, m5, m6, function6.carry(t1)));
     }
 
-    public default <T1, T2, T3, T4, T5, T6, T7, U,
+    default <T1, T2, T3, T4, T5, T6, T7, U,
             M1 extends Monad<T1, M>,
             M2 extends Monad<T2, M>,
             M3 extends Monad<T3, M>,
@@ -83,7 +83,7 @@ public interface MonadOps<M extends Monad<?, M>> extends ApplicativeOps<M> {
         return (MU)m1.flatMap((t1) -> (MU)yieldFor(m2, m3, m4, m5, m6, m7, function7.carry(t1)));
     }
 
-    public default <T1, T2, T3, T4, T5, T6, T7, T8, U,
+    default <T1, T2, T3, T4, T5, T6, T7, T8, U,
             M1 extends Monad<T1, M>,
             M2 extends Monad<T2, M>,
             M3 extends Monad<T3, M>,
@@ -99,7 +99,7 @@ public interface MonadOps<M extends Monad<?, M>> extends ApplicativeOps<M> {
         return (MU)m1.flatMap((t1) -> (MU)yieldFor(m2, m3, m4, m5, m6, m7, m8, function8.carry(t1)));
     }
 
-    public default <T1, T2, T3, T4, T5, T6, T7, T8, T9, U,
+    default <T1, T2, T3, T4, T5, T6, T7, T8, T9, U,
             M1 extends Monad<T1, M>,
             M2 extends Monad<T2, M>,
             M3 extends Monad<T3, M>,
@@ -116,7 +116,7 @@ public interface MonadOps<M extends Monad<?, M>> extends ApplicativeOps<M> {
         return (MU)m1.flatMap((t1) -> (MU)yieldFor(m2, m3, m4, m5, m6, m7, m8, m9, function9.carry(t1)));
     }
 
-    public default <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, U,
+    default <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, U,
             M1 extends Monad<T1, M>,
             M2 extends Monad<T2, M>,
             M3 extends Monad<T3, M>,

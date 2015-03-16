@@ -19,5 +19,5 @@ public final class TryF<A, B> implements Function<A, TryM<B>> {
     }
 
     @Override
-    public TryM<B> apply(A a) { return TryMImpl.tryM(this.function, a); }
+    public TryM<B> apply(A a) { return TryMOps.tryM(this.function, a); }
 }

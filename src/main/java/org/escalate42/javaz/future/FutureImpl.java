@@ -3,7 +3,6 @@ package org.escalate42.javaz.future;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
-import org.escalate42.javaz.common.function.ThrowableClosure;
 import org.escalate42.javaz.common.monad.Monad;
 import org.escalate42.javaz.common.tuple.Tuple2;
 import org.escalate42.javaz.option.Option;
@@ -12,8 +11,9 @@ import org.escalate42.javaz.trym.TryM;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.escalate42.javaz.option.OptionImpl.*;
-import static org.escalate42.javaz.trym.TryMImpl.*;
+import static org.escalate42.javaz.option.OptionOps.*;
+import static org.escalate42.javaz.trym.TryMOps.*;
+import static org.escalate42.javaz.future.FutureOps.*;
 
 /**
  * Created by vdubs
@@ -27,49 +27,7 @@ public class FutureImpl<T> implements Future<T> {
     private final CompletableFuture<T> body;
     private final AtomicReference<Option<TryM<T>>> result = new AtomicReference<>(none());
 
-    public static <T> FutureImpl<T> future(Executor executor) {
-        return new FutureImpl<>(executor, new CompletableFuture<>());
-    }
-
-    public static <T> FutureImpl<T> future(Executor executor, CompletableFuture<T> completableFuture) {
-        return new FutureImpl<>(executor, completableFuture);
-    }
-
-    public static <T> FutureImpl<T> future(Executor executor, ThrowableClosure<T> closure) {
-        return new FutureImpl<>(executor, CompletableFuture.supplyAsync(closure.ommitThrow()::apply, executor));
-    }
-
-    public static <T> FutureImpl<T> completed(Executor executor, T value) {
-        return new FutureImpl<>(executor, CompletableFuture.completedFuture(value));
-    }
-
-    public static <T> FutureImpl<T> completed(Executor executor, Throwable t) {
-        final CompletableFuture<T> future = new CompletableFuture<>();
-        future.completeExceptionally(t);
-        return new FutureImpl<>(executor, future);
-    }
-
-    public static <T> FutureImpl<T> future() {
-        return future(ForkJoinPool.commonPool());
-    }
-
-    public static <T> FutureImpl<T> future(CompletableFuture<T> completableFuture) {
-        return future(ForkJoinPool.commonPool(), completableFuture);
-    }
-
-    public static <T> FutureImpl<T> future(ThrowableClosure<T> closure) {
-        return future(ForkJoinPool.commonPool(), closure);
-    }
-
-    public static <T> FutureImpl<T> completed(T value) {
-        return completed(ForkJoinPool.commonPool(), value);
-    }
-
-    public static <T> FutureImpl<T> completed(Throwable t) {
-        return completed(ForkJoinPool.commonPool(), t);
-    }
-
-    private FutureImpl(final Executor executor, final CompletableFuture<T> future) {
+    FutureImpl(final Executor executor, final CompletableFuture<T> future) {
         this.executor = executor;
         this.sourceFuture = future;
         this.body = future.whenComplete((r, t) -> {
@@ -182,11 +140,6 @@ public class FutureImpl<T> implements Future<T> {
             else { future.complete(tryM.throwable()); }
         });
         return future;
-    }
-
-    @Override
-    public <U> Future<U> pure(U value) {
-        return completed(value);
     }
 
     @Override

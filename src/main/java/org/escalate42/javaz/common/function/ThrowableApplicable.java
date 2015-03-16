@@ -5,5 +5,5 @@ package org.escalate42.javaz.common.function;
  * on 1/27/15.
  */
 public interface ThrowableApplicable<T> {
-    public void apply(T t) throws Throwable;
+    void apply(T t) throws Throwable;
 }

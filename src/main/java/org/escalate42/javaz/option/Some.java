@@ -39,7 +39,7 @@ public class Some<T> extends OptionImpl<T> {
 
     @Override
     public Option<T> filter(Function<T, Boolean> predicate) {
-        return predicate.apply(this.value) ? this : OptionImpl.<T>none();
+        return predicate.apply(this.value) ? this : new None<>();
     }
 
     @Override

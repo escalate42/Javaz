@@ -33,7 +33,7 @@ public class Success<T> extends TryMImpl<T> {
     }
 
     @Override
-    public <U> TryM<U> mapT(ThrowableFunction<T, U> function)  { return TryMImpl.tryM(function, this.value); }
+    public <U> TryM<U> mapT(ThrowableFunction<T, U> function)  { return TryMOps.tryM(function, this.value); }
 
     @Override
     public boolean isSuccess() { return true; }

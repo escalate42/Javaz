@@ -8,6 +8,6 @@ import org.escalate42.javaz.common.function.Function;
  * on 8/21/14.
  */
 public interface Functor<T, M extends Functor<?, M>> {
-    public <U> M map(Function<T, U> function);
-    public void foreach(Applicable<T> function);
+    <U> M map(Function<T, U> function);
+    void foreach(Applicable<T> function);
 }

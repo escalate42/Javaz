@@ -5,5 +5,5 @@ package org.escalate42.javaz.common.applicative;
  * on 8/21/14.
  */
 public interface ApplicativeOps<M extends Applicative<?, M>> {
-    public <U> M pure(U value);
+    <U> M pure(U value);
 }

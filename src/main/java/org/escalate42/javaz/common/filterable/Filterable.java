@@ -7,5 +7,5 @@ import org.escalate42.javaz.common.function.Function;
  * on 05.11.2014 19:44.
  */
 public interface Filterable<T, M extends Filterable<?, M>> {
-    public M filter(Function<T, Boolean> function);
+    M filter(Function<T, Boolean> function);
 }

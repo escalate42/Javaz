@@ -12,18 +12,17 @@ import java.util.Optional;
  * on 10/22/14.
  */
 public interface Option<T> extends Monad<T, Option<?>>, Filterable<T, Option<?>> {
-    public <U> Option<U> map(Function<T, U> function);
-    public <U> Option<U> pure(U value);
-    public <U, MM extends Applicative<Function<T, U>, Option<?>>> Option<U> amap(MM applicativeFunction);
-    public <U, MM extends Monad<U, Option<?>>> Option<U> flatMap(Function<T, MM> function);
-    public Option<T> filter(Function<T, Boolean> function);
-    public boolean isDefined();
-    public T get();
-    public T orNull();
-    public T orElse(T elseValue);
-    public Option<T> or(Option<T> elseValue);
-    public <U> U fold(U ifNone, Function<T, U> function);
-    public default Optional<T> toOptional() {
+    <U> Option<U> map(Function<T, U> function);
+    <U, MM extends Applicative<Function<T, U>, Option<?>>> Option<U> amap(MM applicativeFunction);
+    <U, MM extends Monad<U, Option<?>>> Option<U> flatMap(Function<T, MM> function);
+    Option<T> filter(Function<T, Boolean> function);
+    boolean isDefined();
+    T get();
+    T orNull();
+    T orElse(T elseValue);
+    Option<T> or(Option<T> elseValue);
+    <U> U fold(U ifNone, Function<T, U> function);
+    default Optional<T> toOptional() {
         return isDefined() ? Optional.of(get()) : Optional.<T>empty();
     }
 }

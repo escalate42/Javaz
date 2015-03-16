@@ -5,7 +5,6 @@ import org.escalate42.javaz.common.monoid.impl.ListMonoid;
 import org.escalate42.javaz.common.monoid.impl.StringMonoid;
 import org.escalate42.javaz.common.tuple.Tuple2;
 import org.escalate42.javaz.option.Option;
-import org.escalate42.javaz.option.OptionImpl;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.escalate42.javaz.option.OptionOps.*;
 
 /**
  * Created by vdubs
@@ -38,9 +38,9 @@ public class WriterTest {
 
     @Test
     public void writerTTest() {
-        final WriterT<List<String>, ListMonoid<?>, String, Option<?>> writerT = WriterT.writerT(OptionImpl.option("String body"), ListMonoid.mempty());
-        final WriterT<List<String>, ListMonoid<?>, String, Option<?>> emptyWriterT = WriterT.writerT(OptionImpl.option(null), ListMonoid.mempty());
-        final Option<Tuple2<List<String>, List<String>>> expected = OptionImpl.option(Tuple2.t(
+        final WriterT<List<String>, ListMonoid<?>, String, Option<?>> writerT = WriterT.writerT(option("String body"), ListMonoid.mempty());
+        final WriterT<List<String>, ListMonoid<?>, String, Option<?>> emptyWriterT = WriterT.writerT(option(null), ListMonoid.mempty());
+        final Option<Tuple2<List<String>, List<String>>> expected = option(Tuple2.t(
                 new ArrayList<String>() {{
                     add("STRING");
                     add("BODY");
@@ -58,6 +58,6 @@ public class WriterTest {
                         .run();
         final Option<Tuple2<List<String>, List<String>>> actual = fun.apply(writerT);
         assertEquals(expected, actual);
-        assertEquals(OptionImpl.<Tuple2<List<String>, List<String>>>none(), fun.apply(emptyWriterT));
+        assertEquals(none(), fun.apply(emptyWriterT));
     }
 }

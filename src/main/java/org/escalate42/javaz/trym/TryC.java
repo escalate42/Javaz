@@ -19,6 +19,6 @@ public class TryC<T> implements Closure<TryM<T>> {
     }
 
     @Override
-    public TryM<T> apply() { return TryMImpl.tryM(this.closure); }
+    public TryM<T> apply() { return TryMOps.tryM(this.closure); }
 }
 

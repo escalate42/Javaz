@@ -5,8 +5,8 @@ package org.escalate42.javaz.common.function;
  * on 1/22/15.
  */
 public interface ThrowableClosure<T> {
-    public T apply() throws Throwable;
-    public default Closure<T> ommitThrow() {
+    T apply() throws Throwable;
+    default Closure<T> ommitThrow() {
         return () -> {
             try {
                 return apply();

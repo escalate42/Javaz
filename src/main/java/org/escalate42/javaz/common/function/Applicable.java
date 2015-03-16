@@ -5,5 +5,5 @@ package org.escalate42.javaz.common.function;
  * on 1/27/15.
  */
 public interface Applicable<T> {
-    public void apply(T t);
+    void apply(T t);
 }

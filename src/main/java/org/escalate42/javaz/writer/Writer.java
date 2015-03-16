@@ -5,6 +5,8 @@ import org.escalate42.javaz.common.monoid.Monoid;
 import org.escalate42.javaz.common.tuple.Tuple2;
 import org.escalate42.javaz.id.Id;
 
+import static org.escalate42.javaz.id.IdOps.id;
+
 /**
  * Created by vdubs
  * on 11/6/14.
@@ -12,7 +14,7 @@ import org.escalate42.javaz.id.Id;
 @SuppressWarnings("unchecked")
 public class Writer<T, MT extends Monoid<?, MT>, A> extends WriterT<T, MT, A, Id<?>> {
     private Writer(A body, Monoid<T, MT> context) {
-        super(Id.id(body), context);
+        super(id(body), context);
     }
     public static <T, MT extends Monoid<?, MT>, A> Writer<T, MT, A> writer(A body, Monoid<T, MT> context) {
         return new Writer<>(body, context);

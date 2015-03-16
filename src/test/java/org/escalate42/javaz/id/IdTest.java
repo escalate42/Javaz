@@ -4,15 +4,13 @@ import org.escalate42.javaz.common.function.Function;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.escalate42.javaz.id.Id.*;
+import static org.escalate42.javaz.id.IdOps.*;
 
 /**
  * Created by vdubs
  * on 8/25/14.
  */
 public class IdTest {
-
-    private final IdOps id = IdOps.id;
 
     @Test
     public void fmapTest() {

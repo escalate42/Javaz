@@ -5,7 +5,8 @@ import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.monad.Monad;
 
 import java.io.Serializable;
-import java.util.Optional;
+
+import static org.escalate42.javaz.option.OptionOps.*;
 
 /**
  * Created by vdubs
@@ -15,24 +16,11 @@ public abstract class OptionImpl<T> implements Serializable, Option<T> {
 
     private static final long serialVersionUID = 0;
 
-    public static <U> Option<U> fromOptional(final Optional<U> optional) {
-        return option(optional.orElse(null));
-    }
-    public static <U> Option<U> option(final U value) {
-        final Option<U> none = none();
-        return value == null ? none : some(value);
-    }
-    public static <U> None<U> none() { return None.none(); }
-    public static <U> Some<U> some(final U value) { return Some.some(value); }
-
     @Override
     public abstract <U> Option<U> map(Function<T, U> function);
 
     @Override
     public abstract Option<T> filter(Function<T, Boolean> predicate);
-
-    @Override
-    public <U> Option<U> pure(U value) { return option(value); }
 
     @Override
     public <U, MM extends Applicative<Function<T, U>, Option<?>>> Option<U> amap(MM applicativeFunction) {

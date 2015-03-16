@@ -2,12 +2,13 @@ package org.escalate42.javaz.option;
 
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.either.Either;
-import org.escalate42.javaz.either.EitherImpl;
+import org.escalate42.javaz.either.EitherOps;
 import org.junit.Test;
 
 import java.util.Optional;
 
-import static org.escalate42.javaz.option.OptionImpl.*;
+import static org.escalate42.javaz.option.OptionOps.*;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -63,7 +64,6 @@ public class OptionTest {
 
     @Test
     public void yieldForTest() {
-        final OptionOps id = OptionOps.id;
         final Option<String> result = id.yieldFor(
                 id.pure("1"), id.pure("2"), id.pure("3"),
                 (s1, s2, s3) -> s1 + s2 + s3
@@ -74,19 +74,19 @@ public class OptionTest {
     @Test
     public void optionTTest() {
         final OptionT<String, Either<?, ?>> rightSomeT = OptionT.optionT(
-                EitherImpl.<String, Option<String>>right(OptionImpl.some("right"))
+                EitherOps.<String, Option<String>>right(some("right"))
         );
         final OptionT<String, Either<?, ?>> rightNoneT = OptionT.optionT(
-                EitherImpl.<String, Option<String>>right(OptionImpl.none())
+                EitherOps.<String, Option<String>>right(none())
         );
         final OptionT<String, Either<?, ?>> leftOptionT = OptionT.optionT(
-                EitherImpl.<String, Option<String>>left("left")
+                EitherOps.<String, Option<String>>left("left")
         );
         final Either<String, String> eitherSomeR = rightSomeT.map(String::toUpperCase).get();
         final Either<String, Option<String>> eitherNoneR = rightNoneT.map(String::toUpperCase).run();
         final Either<String, String> eitherL = leftOptionT.map(String::toUpperCase).get();
-        assertEquals(EitherImpl.<String, String>right("RIGHT"), eitherSomeR);
-        assertEquals(EitherImpl.<String, Option<String>>right(OptionImpl.<String>none()), eitherNoneR);
-        assertEquals(EitherImpl.<String, String>left("left"), eitherL);
+        assertEquals(EitherOps.<String, String>right("RIGHT"), eitherSomeR);
+        assertEquals(EitherOps.<String, Option<String>>right(none()), eitherNoneR);
+        assertEquals(EitherOps.<String, String>left("left"), eitherL);
     }
 }

@@ -4,9 +4,10 @@ import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.applicative.Applicative;
 import org.escalate42.javaz.common.monad.Monad;
 import org.escalate42.javaz.option.Option;
-import org.escalate42.javaz.option.OptionImpl;
 
 import java.io.Serializable;
+
+import static org.escalate42.javaz.option.OptionOps.*;
 
 /**
  * Created by vdubs
@@ -16,14 +17,8 @@ public abstract class EitherImpl<L, R> implements Serializable, Either<L, R> {
 
     private static final long serialVersionUID = 0;
 
-    public static <L, R> Either<L, R> left(L leftValue) { return Left.left(leftValue); }
-    public static <L, R> Either<L, R> right(R rightValue) { return Right.right(rightValue); }
-
     @Override
     public abstract <U> Either<L, U> map(Function<R, U> function);
-
-    @Override
-    public <U> Either<L, U> pure(U value) { return right(value); }
 
     @Override
     public <U, MM extends Applicative<Function<R, U>, Either<?, ?>>> Either<L, U> amap(MM applicativeFunction) {
@@ -35,7 +30,7 @@ public abstract class EitherImpl<L, R> implements Serializable, Either<L, R> {
             }
         });
         final Either<L, U> result;
-        if (mapped.isLeft()) { result = left(mapped.left()); }
+        if (mapped.isLeft()) { result = EitherOps.left(mapped.left()); }
         else { result = mapped.right(); }
         return result;
     }
@@ -45,7 +40,7 @@ public abstract class EitherImpl<L, R> implements Serializable, Either<L, R> {
         //noinspection unchecked
         final Either<L, Either<L, U>> mapped = (Either<L, Either<L, U>>) map(function);
         final Either<L, U> result;
-        if (mapped.isLeft()) { result = left(mapped.left()); }
+        if (mapped.isLeft()) { result = EitherOps.left(mapped.left()); }
         else { result = mapped.right(); }
         return result;
     }
@@ -61,7 +56,7 @@ public abstract class EitherImpl<L, R> implements Serializable, Either<L, R> {
         });
         final Either<U, R> result;
         if (mapped.isLeft()) { result = mapped.left(); }
-        else { result = right(mapped.right()); }
+        else { result = EitherOps.right(mapped.right()); }
         return result;
     }
 
@@ -80,6 +75,6 @@ public abstract class EitherImpl<L, R> implements Serializable, Either<L, R> {
     public abstract <U> U foldLeft(U ifRight, Function<L, U> function);
 
     public Option<R> asOption() {
-        return isRight() ? OptionImpl.some(right()) : OptionImpl.none();
+        return isRight() ? some(right()) : none();
     }
 }

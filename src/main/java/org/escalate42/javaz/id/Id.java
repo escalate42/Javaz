@@ -5,6 +5,8 @@ import org.escalate42.javaz.common.function.Applicable;
 import org.escalate42.javaz.common.function.Function;
 import org.escalate42.javaz.common.monad.Monad;
 
+import static org.escalate42.javaz.id.IdOps.*;
+
 /**
  * Created by vdubs
  * on 8/25/14.
@@ -19,8 +21,6 @@ public final class Id<T> implements Monad<T, Id<?>> {
         this.value = value;
     }
 
-    public static <U> Id<U> id(U value) { return new Id<>(value); }
-
     @Override
     public <U> Id<U> map(Function<T, U> function) {
         return id(function.apply(this.value));
@@ -29,11 +29,6 @@ public final class Id<T> implements Monad<T, Id<?>> {
     @Override
     public void foreach(Applicable<T> function) {
         function.apply(this.value);
-    }
-
-    @Override
-    public <U> Id<U> pure(U value) {
-        return id(value);
     }
 
     @Override
